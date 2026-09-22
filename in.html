@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)https://pat-alex.github.io/edu/ -->
+<html dir="rtl" lang="ar"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>تسجيل الحضور بالمدرج </title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./تسجيل الحضور بالمدرج_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1E4638;
+    --primary-light: #2C5C4A;
+    --bg: #F2F4EE;
+    --card: #FFFFFF;
+    --gold: #C98A2C;
+    --danger: #B24A3C;
+    --text: #16211C;
+    --border: #DDE0D3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cairo', Tahoma, Arial, sans-serif;
+    direction: rtl;
+  }
+  .topbar {
+    background: var(--primary);
+    color: #fff;
+    padding: 18px 16px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .topbar h1 { margin: 0; font-size: 20px; font-weight: 800; }
+  .topbar p { margin: 6px 0 0; font-size: 13px; opacity: 0.9; }
+
+  .container {
+    max-width: 440px;
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+  label {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    margin: 12px 0 6px;
+  }
+  input[type=text] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #FAFAFA;
+    font-family: inherit;
+  }
+  input:focus {
+    outline: 2px solid var(--gold);
+    background: #fff;
+  }
+  button.btn-primary {
+    width: 100%;
+    padding: 14px;
+    margin-top: 18px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button.btn-primary:active {
+    background: var(--primary-light);
+  }
+  button:disabled {
+    background: #94A3B8;
+    cursor: not-allowed;
+  }
+  .info-box {
+    background: #E8F0EC;
+    border-right: 4px solid var(--primary);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .warning-box {
+    background: #FFF4E5;
+    border-right: 4px solid var(--gold);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #663C00;
+    margin-bottom: 12px;
+    display: none;
+  }
+  .time-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+  .msg-box {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    display: none;
+  }
+  .msg-success {
+    background: #E6F4EA;
+    color: #137333;
+    border: 1px solid #CEEAD6;
+    display: block;
+  }
+  .msg-error {
+    background: #FCE8E6;
+    color: #C5221F;
+    border: 1px solid #FAD2CF;
+    display: block;
+  }
+  .msg-info {
+    background: #EFF1EA;
+    color: #3A4A40;
+    border: 1px solid var(--border);
+    display: block;
+  }
+  .loader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #FFF;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1> تسجيل الحضور بالمدرج </h1>
+  <p>نظام التحقق الجغرافي الذكي</p>
+</div>
+
+<div class="container">
+  <div class="card">
+    <div id="inAppWarning" class="warning-box">
+      ⚠️ إذا كنت تفتح الرابط من داخل الواتساب أو الفيسبوك، اضغط على (⋮) بالأعلى واختر <b>"فتح في المتصفح / Open in Chrome"</b> لضمان عمل الـ GPS.
+    </div>
+
+    <div class="info-box">
+      📍 يجب التواجد داخل المدرج.<br>
+      🗓️ التسجيل متاح فقط يوم <b>السبت</b> من <span class="time-badge">08:30 ص</span> حتى <span class="time-badge">11:00 م</span>.
+    </div>
+
+    <label>التخصص</label>
+    <input type="text" id="studentCode" placeholder="أدخل التخصص">
+
+    <label>اسم الطالب </label>
+    <input type="text" id="studentName" placeholder="أدخل اسمك كاملا">
+
+    <button id="submitBtn" class="btn-primary" onclick="submitAttendance()">
+      <span id="btnText">تسجيل الحضور الآن</span>
+    </button>
+
+    <div id="statusMsg" class="msg-box"></div>
+  </div>
+</div>
+
+<script>
+// 1. رابط ومفتاح Supabase الخاص بك
+  const SUPABASE_URL = "https://uksnjwqeguoteihhksnk.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_QcQQjlBDGcE391ibb7Kv7w_vCBWzMmo";
+
+  // 2. إحداثيات المدرج وأقصى مسافة (65 متراً)
+  const HALL_LAT = 31.207106;
+  const HALL_LNG = 29.911528;
+  const MAX_ALLOWED_DISTANCE_METERS = 65;
+
+  // فحص المتصفح الداخلي عند التحميل
+  window.onload = function() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    if (ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1 || ua.indexOf("WhatsApp") > -1) {
+      document.getElementById('inAppWarning').style.display = 'block';
+    }
+  };
+
+  // جلب أو توليد معرف الموبايل الفريد
+  function getDeviceId() {
+    let id = localStorage.getItem('deviceId');
+    if (!id) {
+      id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() :
+        'dev-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+      localStorage.setItem('deviceId', id);
+    }
+    return id;
+  }
+
+  // 3. التحقق من اليوم (السبت فقط) والنافذة الزمنية (من 08:30 إلى 23:00)
+  function isRegistrationAllowed() {
+    const now = new Date();
+    const isSaturday = now.getDay() === 6; // الأحد=0 ... السبت=6
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const currentTime = `${hours}:${minutes}`;
+    const isWithinTime = (currentTime >= '08:30' && currentTime <= '23:50');
+    return isSaturday && isWithinTime;
+  }
+
+  async function submitAttendance() {
+    const specialization = document.getElementById('studentCode').value.trim();
+    const name = document.getElementById('studentName').value.trim();
+
+    if (!specialization) {
+      showMsg('يرجى كتابة التخصص أولاً', 'error');
+      return;
+    }
+
+    if (!name) {
+      showMsg('يرجى كتابة اسم الطالب أولاً', 'error');
+      return;
+    }
+
+    if (!isRegistrationAllowed()) {
+      showMsg('عذراً، تسجيل الحضور متاح فقط يوم السبت من الساعة 08:30 صباحاً حتى 11:00 مساءً.', 'error');
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      showMsg('المتصفح لا يدعم تحديد الموقع الجغرافي', 'error');
+      return;
+    }
+
+    setLoading(true);
+    showMsg('جاري التحقق من التكرار والموقع الجغرافي...', 'info');
+
+    const deviceId = getDeviceId();
+
+    try {
+      // 4. التحقق من التكرار (بالاسم أو بالجهاز) مع معالجة الأخطاء السليمة
+      const isDuplicate = await checkAlreadyRegisteredToday(name, deviceId);
+      if (isDuplicate) {
+        setLoading(false);
+        showMsg('عذراً، تم تسجيل حضورك اليوم بالفعل بنفس الاسم أو بهذا الموبايل ولا يمكنك التسجيل مرة أخرى.', 'error');
+        return;
+      }
+
+      // تحديد الموقع الجغرافي
+      navigator.geolocation.getCurrentPosition(
+        pos => processAttendance(pos, specialization, name, deviceId),
+        err => {
+          setLoading(false);
+          showMsg('تعذر تحديد موقعك، يرجى التأكد من تشغيل الـ GPS وإعطاء الإذن للمتصفح.', 'error');
+        },
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+      );
+    } catch (err) {
+      setLoading(false);
+      showMsg('حدث خطأ أثناء فحص البيانات، يرجى إعادة المحاولة.', 'error');
+    }
+  }
+
+  // فحص التكرار اليومي الآمن (بالاسم أو بمعرف الجهاز - وليس بالتخصص، لأن التخصص ليس معرّفاً فريداً للطالب)
+  async function checkAlreadyRegisteredToday(name, deviceId) {
+    try {
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const todayIso = todayStart.toISOString();
+
+      const statusVal = encodeURIComponent('مقبول');
+      const safeName = encodeURIComponent(name);
+      const safeDevice = encodeURIComponent(deviceId);
+
+      const query = `${SUPABASE_URL}/rest/v1/attendance?select=id&created_at=gte.${todayIso}&status=eq.${statusVal}&or=(student_name.eq.${safeName},device_id.eq.${safeDevice})`;
+
+      const response = await fetch(query, {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+
+      if (!response.ok) {
+        console.warn('تنبيه: تعذر فحص التكرار، سيتم المتابعة بالفحوصات التالية.');
+        return false;
+      }
+
+      const data = await response.json();
+      return Array.isArray(data) && data.length > 0;
+    } catch (e) {
+      console.error('خطأ في الاتصال بالخدمة:', e);
+      return false;
+    }
+  }
+
+  // 5. حساب المسافة وحفظ الحالة
+  async function processAttendance(pos, specialization, name, deviceId) {
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const distanceMeters = Math.round(calculateDistanceInMeters(lat, lng, HALL_LAT, HALL_LNG));
+
+    const isAccepted = distanceMeters <= MAX_ALLOWED_DISTANCE_METERS;
+    const statusText = isAccepted ? 'مقبول' : 'مرفوض - بعيد عن المدرج';
+
+    const payload = {
+      student_code: specialization, // ملاحظة: هذا العمود يخزّن "التخصص" وليس كود طالب فريد
+      student_name: name,
+      device_id: deviceId,
+      lat: lat,
+      lng: lng,
+      distance: distanceMeters,
+      status: statusText
+    };
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/attendance`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      setLoading(false);
+
+      if (res.ok) {
+        if (isAccepted) {
+          showMsg('تم تسجيل موقعك والتوقيت بنجاح. مقبـول داخل المدرج.', 'success');
+        } else {
+          showMsg(`عذراً، موقعك يبعد حوالي ${distanceMeters} متر عن المدرج. يرجى الاقتراب والتأكد من فتح الـ GPS.`, 'error');
+        }
+      } else {
+        showMsg('حدث خطأ أثناء حفظ البيانات، يرجى إعادة المحاولة.', 'error');
+      }
+    } catch (err) {
+      setLoading(false);
+      showMsg('تعذر الاتصال بالخادم، تأكد من الاتصال بالإنترنت.', 'error');
+    }
+  }
+
+  // دالة حساب المسافة بالمتر (Haversine Formula)
+  function calculateDistanceInMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  function showMsg(text, type) {
+    const msgEl = document.getElementById('statusMsg');
+    msgEl.textContent = text;
+    const cls = type === 'success' ? 'msg-success' : (type === 'info' ? 'msg-info' : 'msg-error');
+    msgEl.className = 'msg-box ' + cls;
+  }
+
+  function setLoading(isLoading) {
+    const btn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    btn.disabled = isLoading;
+    btnText.innerHTML = isLoading ? 'جاري التحقق... <span class="loader"></span>' : 'تسجيل الحضور الآن';
+  }
+</script>
+
+
+</body></html>
