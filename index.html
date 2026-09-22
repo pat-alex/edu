@@ -188,10 +188,15 @@
   const SUPABASE_URL = "https://uksnjwqeguoteihhksnk.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_QcQQjlBDGcE391ibb7Kv7w_vCBWzMmo";
 
-  // 2. إحداثيات المدرج وحد التواجد (100 متر)
+<script>
+  // 1. إعدادات الربط بـ Supabase
+  const SUPABASE_URL = "https://uksnjwqeguoteihhksnk.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_QcQQjlBDGcE391ibb7Kv7w_vCBWzMmoع";
+
+  // 2. إحداثيات المدرج وأقصى مسافة (طابقنا الـ 65 متراً من السكريبت القديم)
   const HALL_LAT = 31.207106;
   const HALL_LNG = 29.911528;
-  const MAX_ALLOWED_DISTANCE = 100;
+  const MAX_ALLOWED_DISTANCE_METERS = 65; 
 
   // فحص المتصفح الداخلي عند التحميل
   window.onload = function() {
@@ -212,12 +217,28 @@
     return id;
   }
 
-  function submitAttendance(type) {
+  // 3. التحقق من النافذة الزمنية (من 08:30 إلى 23:00)
+  function isWithinTimeWindow() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const currentTime = `${hours}:${minutes}`;
+
+    return (currentTime >= '08:30' && currentTime <= '23:00');
+  }
+
+  async function submitAttendance(type) {
     const code = document.getElementById('studentCode').value.trim();
     const name = document.getElementById('studentName').value.trim();
 
     if (!code) {
       showMsg('يرجى كتابة كود الطالب أولاً', 'error');
+      return;
+    }
+
+    // فحص التوقيت المسموح
+    if (!isWithinTimeWindow()) {
+      showMsg('عذراً، تسجيل الحضور متاح حالياً فقط بين الساعة 08:30 صباحاً و 11:00 مساءً.', 'error');
       return;
     }
 
@@ -227,68 +248,111 @@
     }
 
     setLoading(true);
-    showMsg('جاري تحديد موقعك والتحقق من التواجد داخل المدرج...', 'success');
+    showMsg('جاري التحقق من التكرار والموقع الجغرافي...', 'success');
 
-    // المحاولة الأولى: دقة عالية (High Accuracy)
-    getGeoPosition(true, function(pos) {
-      sendData(pos, type, code, name);
-    }, function() {
-      // محاولة ثانية بدقة عادية في حال فشل الأولى
-      getGeoPosition(false, function(pos) {
-        sendData(pos, type, code, name);
-      }, function(err) {
+    const deviceId = getDeviceId();
+
+    try {
+      // 4. التحقق من عدم تكرار التسجيل اليوم لنفس الجهاز أو الكود
+      const isDuplicate = await checkAlreadyRegisteredToday(code, deviceId);
+      if (isDuplicate) {
         setLoading(false);
-        handleGeoError(err);
-      });
-    });
+        showMsg(' تم تسجيل موقعك والتوقيت اليوم بالفعل باستخدام هذا الموبايل أو الكود ولا يمكنك التسجيل باسم أخر.', 'error');
+        return;
+      }
+
+      // تحديد الموقع الجغرافي
+      navigator.geolocation.getCurrentPosition(
+        pos => processAttendance(pos, code, name, deviceId, type),
+        err => {
+          setLoading(false);
+          showMsg('تعذر تحديد موقعك، يرجى التأكد من تشغيل الـ GPS وإعطاء الإذن للمتصفح.', 'error');
+        },
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+      );
+    } catch (err) {
+      setLoading(false);
+      showMsg('حدث خطأ أثناء فحص البيانات، يرجى إعادة المحاولة.', 'error');
+    }
   }
 
-  function getGeoPosition(highAccuracy, successCb, errorCb) {
-    navigator.geolocation.getCurrentPosition(successCb, errorCb, {
-      enableHighAccuracy: highAccuracy,
-      timeout: 12000,
-      maximumAge: 0
+  // فحص التكرار اليومي من Supabase
+  async function checkAlreadyRegisteredToday(code, deviceId) {
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const todayIso = todayStart.toISOString();
+
+    const query = `${SUPABASE_URL}/rest/v1/attendance?select=id&created_at=gte.${todayIso}&status=eq.مقبول&or=(student_code.eq.${code},device_id.eq.${deviceId})`;
+
+    const response = await fetch(query, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+      }
     });
+
+    const data = await response.json();
+    return data && data.length > 0;
   }
 
-  function sendData(pos, type, code, name) {
-    const params = {
-      action: 'submitLocationAttendance',
-      studentCode: code,
-      studentName: name,
-      type: type,
-      lat: pos.coords.latitude,
-      lng: pos.coords.longitude,
-      accuracy: pos.coords.accuracy,
-      deviceId: getDeviceId()
+  // 5. حساب المسافة وحفظ الحالة (مقبول / مرفوض - بعيد عن المدرج)
+  async function processAttendance(pos, code, name, deviceId, type) {
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const distanceMeters = Math.round(calculateDistanceInMeters(lat, lng, HALL_LAT, HALL_LNG));
+
+    const isAccepted = distanceMeters <= MAX_ALLOWED_DISTANCE_METERS;
+    const statusText = isAccepted ? 'مقبول' : 'مرفوض - بعيد عن المدرج';
+
+    const payload = {
+      student_code: code,
+      student_name: name,
+      device_id: deviceId,
+      lat: lat,
+      lng: lng,
+      distance: distanceMeters,
+      status: statusText
     };
 
-    const query = new URLSearchParams(params).toString();
-
-    fetch(`${API_URL}?${query}`)
-      .then(res => res.json())
-      .then(json => {
-        setLoading(false);
-        if (json.success) {
-          showMsg(json.data.message, 'success');
-        } else {
-          showMsg(json.error, 'error');
-        }
-      })
-      .catch(err => {
-        setLoading(false);
-        showMsg('تعذر الاتصال بالخادم، تأكد من الاتصال بالإنترنت.', 'error');
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/attendance`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
       });
+
+      setLoading(false);
+
+      if (res.ok) {
+        if (isAccepted) {
+          showMsg('تم تسجيل موقعك والتوقيت. سيتم مراجعة الإحداثيات للتأكد من التواجد داخل المدرج.', 'success');
+        } else {
+          showMsg(`عذراً، موقعك يبعد حوالي ${distanceMeters} متر عن المدرج. يرجى الاقتراب والتأكد من فتح الـ GPS.`, 'error');
+        }
+      } else {
+        showMsg('حدث خطأ أثناء حفظ البيانات، يرجى إعادة المحاولة.', 'error');
+      }
+    } catch (err) {
+      setLoading(false);
+      showMsg('تعذر الاتصال بالخادم، تأكد من الاتصال بالإنترنت.', 'error');
+    }
   }
 
-  function handleGeoError(err) {
-    if (err.code === 1) {
-      showMsg('يرجى التأكد من تفعيل إذن الموقع (Location Permission) للمتصفح من إعدادات الهاتف.', 'error');
-    } else if (err.code === 2) {
-      showMsg('تعذر تحديد موقعك، يرجى التأكد من تشغيل الـ GPS والإشارة.', 'error');
-    } else {
-      showMsg('استغرق تحديد الموقع وقتاً طويلاً، يرجى إعادة المحاولة.', 'error');
-    }
+  // دالة حساب المسافة بالمتر (Haversine Formula)
+  function calculateDistanceInMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
   }
 
   function showMsg(text, type) {
@@ -301,11 +365,7 @@
     const btn = document.getElementById('submitBtn');
     const btnText = document.getElementById('btnText');
     btn.disabled = isLoading;
-    if (isLoading) {
-      btnText.innerHTML = 'جاري التحقق... <span class="loader"></span>';
-    } else {
-      btnText.textContent = 'تسجيل الحضور الآن';
-    }
+    btnText.innerHTML = isLoading ? 'جاري التحقق... <span class="loader"></span>' : 'تسجيل الحضور الآن';
   }
 </script>
 </body>
