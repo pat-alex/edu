@@ -188,8 +188,7 @@
   const SUPABASE_URL = "https://uksnjwqeguoteihhksnk.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_QcQQjlBDGcE391ibb7Kv7w_vCBWzMmo";
 
-
-  // 2. إحداثيات المدرج وأقصى مسافة (طابقنا الـ 65 متراً من السكريبت القديم)
+  // 2. إحداثيات المدرج وأقصى مسافة (65 متراً)
   const HALL_LAT = 31.207106;
   const HALL_LNG = 29.911528;
   const MAX_ALLOWED_DISTANCE_METERS = 65; 
@@ -232,7 +231,6 @@
       return;
     }
 
-    // فحص التوقيت المسموح
     if (!isWithinTimeWindow()) {
       showMsg('عذراً، تسجيل الحضور متاح حالياً فقط بين الساعة 08:30 صباحاً و 11:00 مساءً.', 'error');
       return;
@@ -249,11 +247,11 @@
     const deviceId = getDeviceId();
 
     try {
-      // 4. التحقق من عدم تكرار التسجيل اليوم لنفس الجهاز أو الكود
+      // 4. التحقق من التكرار مع معالجة الأخطاء السليمة
       const isDuplicate = await checkAlreadyRegisteredToday(code, deviceId);
       if (isDuplicate) {
         setLoading(false);
-        showMsg(' تم تسجيل موقعك والتوقيت اليوم بالفعل باستخدام هذا الموبايل أو الكود ولا يمكنك التسجيل باسم أخر.', 'error');
+        showMsg('عذراً، تم تسجيل موقعك والتوقيت اليوم بالفعل باستخدام هذا الموبايل أو الكود ولا يمكنك التسجيل مرة أخرى.', 'error');
         return;
       }
 
@@ -272,26 +270,40 @@
     }
   }
 
-  // فحص التكرار اليومي من Supabase
+  // فحص التكرار اليومي الآمن
   async function checkAlreadyRegisteredToday(code, deviceId) {
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-    const todayIso = todayStart.toISOString();
+    try {
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const todayIso = todayStart.toISOString();
 
-    const query = `${SUPABASE_URL}/rest/v1/attendance?select=id&created_at=gte.${todayIso}&status=eq.مقبول&or=(student_code.eq.${code},device_id.eq.${deviceId})`;
+      const statusVal = encodeURIComponent('مقبول');
+      const safeCode = encodeURIComponent(code);
+      const safeDevice = encodeURIComponent(deviceId);
 
-    const response = await fetch(query, {
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+      const query = `${SUPABASE_URL}/rest/v1/attendance?select=id&created_at=gte.${todayIso}&status=eq.${statusVal}&or=(student_code.eq.${safeCode},device_id.eq.${safeDevice})`;
+
+      const response = await fetch(query, {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+
+      if (!response.ok) {
+        console.warn('تنبيه: تعذر فحص التكرار، سيتم المتابعة بالفيحوصات التالية.');
+        return false;
       }
-    });
 
-    const data = await response.json();
-    return data && data.length > 0;
+      const data = await response.json();
+      return Array.isArray(data) && data.length > 0;
+    } catch (e) {
+      console.error('خطأ في الاتصال بالخدمة:', e);
+      return false;
+    }
   }
 
-  // 5. حساب المسافة وحفظ الحالة (مقبول / مرفوض - بعيد عن المدرج)
+  // 5. حساب المسافة وحفظ الحالة
   async function processAttendance(pos, code, name, deviceId, type) {
     const lat = pos.coords.latitude;
     const lng = pos.coords.longitude;
@@ -326,7 +338,7 @@
 
       if (res.ok) {
         if (isAccepted) {
-          showMsg('تم تسجيل موقعك والتوقيت. سيتم مراجعة الإحداثيات للتأكد من التواجد داخل المدرج.', 'success');
+          showMsg('تم تسجيل موقعك والتوقيت بنجاح. مقبـول داخل المدرج.', 'success');
         } else {
           showMsg(`عذراً، موقعك يبعد حوالي ${distanceMeters} متر عن المدرج. يرجى الاقتراب والتأكد من فتح الـ GPS.`, 'error');
         }
