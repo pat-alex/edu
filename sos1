@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل استراتيجيات التدريس التفاعلي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --border: #e9ecef;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .filters-container {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        select, input {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--accent);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 6px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .tag-type { background-color: #e3f2fd; color: #1976d2; }
+        .tag-thinking { background-color: #f3e5f5; color: #7b1fa2; }
+        .tag-tools { background-color: #e8f5e9; color: #388e3c; }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #777;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>موسوعة استراتيجيات التدريس التفاعلية</h1>
+        <p>مصنفة حسب نوع التنفيذ، طريقة التفكير، والأدوات المستخدمة</p>
+    </header>
+
+    <section class="filters-container">
+        <div class="filter-group">
+            <label for="search">بحث باسم الاستراتيجية:</label>
+            <input type="text" id="search" placeholder="ابحث هنا...">
+        </div>
+
+        <div class="filter-group">
+            <label for="typeFilter">نوع التنفيذ:</label>
+            <select id="typeFilter">
+                <option value="all">الكل</option>
+                <option value="فردي">فردي</option>
+                <option value="ثنائي">ثنائي</option>
+                <option value="مجموعات صغيرة">مجموعات صغيرة</option>
+                <option value="جماعي / الصف كامل">جماعي / الصف كامل</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="thinkingFilter">طريقة التفكير:</label>
+            <select id="thinkingFilter">
+                <option value="all">الكل</option>
+                <option value="إبداعي وتخيل">إبداعي وتخيل</option>
+                <option value="ناقد وتأملي">ناقد وتأملي</option>
+                <option value="تحليلي واستقرائي">تحليلي واستقرائي</option>
+                <option value="حل المشكلات">حل المشكلات</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="toolsFilter">الأدوات المستخدمة:</label>
+            <select id="toolsFilter">
+                <option value="all">الكل</option>
+                <option value="بطاقات وأوراق">بطاقات وأوراق</option>
+                <option value="وسائط رقمية وفيديو">وسائط رقمية وفيديو</option>
+                <option value="أدوات حسية وألعاب">أدوات حسية وألعاب</option>
+                <option value="بدون أدوات / شفهي">بدون أدوات / شفهي</option>
+            </select>
+        </div>
+    </section>
+
+    <main class="grid" id="strategiesGrid">
+        <!-- يتم عرض البطاقات هنا عبر JavaScript -->
+    </main>
+
+    <script>
+        // بيانات الاستراتيجيات مستخرجة من محتوى الملف
+        const strategies = [
+            {
+                title: "إستراتيجية التعلم بالتخيل",
+                description: "إثارة مشاركة فاعلة بين الطلاب عبر ممارسة التخيل في مكان هادئ وتفريغ الذهن للتفكير في موضوع محدد مع قائد للتوجيه.",
+                type: "فردي",
+                thinking: "إبداعي وتخيل",
+                tools: "بدون أدوات / شفهي"
+            },
+            {
+                title: "إستراتيجية البطاقات المروحية",
+                description: "تقسيم الطلاب لمجموعات وتوزيع أسئلة ببطاقات على شكل مروحة، حيث يقدم كل طالب دور محدد (سحب، قراءة، إجابة، تقييم).",
+                type: "مجموعات صغيرة",
+                thinking: "تحليلي واستقرائي",
+                tools: "بطاقات وأوراق"
+            },
+            {
+                title: "إستراتيجية العمل الجماعي",
+                description: "تقسيم الطلاب لمجموعات مكونة من 4 أعضاء لإنجاز واجبات معينة لتنمية التعاون والمسؤولية وتبادل الأفكار.",
+                type: "مجموعات صغيرة",
+                thinking: "ناقد وتأملي",
+                tools: "بدون أدوات / شفهي"
+            },
+            {
+                title: "إستراتيجية المبعوثون",
+                description: "تبحث كل مجموعة موضوعاً، ثم يتجول مبعوث ليشرح للمجموعات الأخرى ويعود لنقل ما تعلمه لمجموعته الأصلية.",
+                type: "مجموعات صغيرة",
+                thinking: "تحليلي واستقرائي",
+                tools: "بدون أدوات / شفهي"
+            },
+            {
+                title: "إستراتيجية حوض السمك",
+                description: "جلوس 4-5 طلاب في دائرة داخلية لمناقشة موضوع بينما يلاحظ باقي الطلاب في الدائرة الخارجية ثم تبادل الأدوار.",
+                type: "جماعي / الصف كامل",
+                thinking: "ناقد وتأملي",
+                tools: "بدون أدوات / شفهي"
+            },
+            {
+                title: "إستراتيجية الإيقاف المؤقت والتشغيل",
+                description: "عرض مقطع فيديو مع إيقافه مؤقتاً عند محطات محددة لطرح أسئلة توجيهية وتنظيم مدخلات الفهم قبل النقاش.",
+                type: "جماعي / الصف كامل",
+                thinking: "ناقد وتأملي",
+                tools: "وسائط رقمية وفيديو"
+            },
+            {
+                title: "إستراتيجية أعواد المثلجات",
+                description: "كتابة أسماء الطلاب على أعواد وسحب عود عشوائياً عند توجيه الأسئلة للتشجيع على الاستماع والمشاركة الفعالة.",
+                type: "جماعي / الصف كامل",
+                thinking: "ناقد وتأملي",
+                tools: "أدوات حسية وألعاب"
+            },
+            {
+                title: "إستراتيجية القبعات الست",
+                description: "تقسيم التفكير إلى 6 أنماط (ملونة) يعالج فيها الفرد أو المجموعة جوانب موضوع محدد دون تداخل بين النمط والآخر.",
+                type: "مجموعات صغيرة",
+                thinking: "إبداعي وتخيل",
+                tools: "بدون أدوات / شفهي"
+            },
+            {
+                title: "إستراتيجية حل المشكلات",
+                description: "صياغة المقرر في صورة مشكلات تتطلب الإحساس بها، فرض الفروض، اختبارها، والوصول لأحكام عامة.",
+                type: "مجموعات صغيرة",
+                thinking: "حل المشكلات",
+                tools: "بدون أدوات / شفهي"
+            },
+            {
+                title: "إستراتيجية فكر ، زاوج ، شارك",
+                description: "يفكر الطالب منفرداً، ثم يتشارك مع زميله للاتفاق على إجابة، ثم تشارك المجموعة الثنائية مع الصف.",
+                type: "ثنائي",
+                thinking: "ناقد وتأملي",
+                tools: "بدون أدوات / شفهي"
+            },
+            {
+                title: "إستراتيجية الخرائط المفاهيمية",
+                description: "عرض المعرفة بأشكال تخطيطية تربط المفاهيم بأسهم وخطوط لتسهيل تنظيم واسترجاع المعلومات.",
+                type: "فردي",
+                thinking: "تحليلي واستقرائي",
+                tools: "بطاقات وأوراق"
+            },
+            {
+                title: "إستراتيجية معركة كرات الثلج",
+                description: "يكتب كل طالب حقيقة تعلمها في ورقة، ويكورها ثم يقذفها في الهواء ليلتقط زميله الورقة ويضيف تفصيلاً آخر.",
+                type: "جماعي / الصف كامل",
+                thinking: "إبداعي وتخيل",
+                tools: "بطاقات وأوراق"
+            },
+            {
+                title: "إستراتيجية السكوت من ذهب",
+                description: "عرض فيديو بدون صوت وجعل الطلاب يناقشون ويتوقعون ما يرونه بصوت عالٍ لبناء استدلالات عميقة.",
+                type: "جماعي / الصف كامل",
+                thinking: "ناقد وتأملي",
+                tools: "وسائط رقمية وفيديو"
+            },
+            {
+                title: "إستراتيجية هل سمعت ذلك؟",
+                description: "تشغيل مؤثرات صوتية دون كشف مصدرها وتخيل قصة ترتبط بأصوات وتدوينها.",
+                type: "فردي",
+                thinking: "إبداعي وتخيل",
+                tools: "وسائط رقمية وفيديو"
+            }
+        ];
+
+        const grid = document.getElementById('strategiesGrid');
+        const searchInput = document.getElementById('search');
+        const typeFilter = document.getElementById('typeFilter');
+        const thinkingFilter = document.getElementById('thinkingFilter');
+        const toolsFilter = document.getElementById('toolsFilter');
+
+        function renderCards(data) {
+            grid.innerHTML = '';
+            if (data.length === 0) {
+                grid.innerHTML = '<div class="no-results">لم يتم العثور على استراتيجيات تطابق خيارات الفلترة.</div>';
+                return;
+            }
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-type">${item.type}</span>
+                        <span class="tag tag-thinking">${item.thinking}</span>
+                        <span class="tag tag-tools">${item.tools}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterData() {
+            const searchText = searchInput.value.toLowerCase();
+            const selectedType = typeFilter.value;
+            const selectedThinking = thinkingFilter.value;
+            const selectedTools = toolsFilter.value;
+
+            const filtered = strategies.filter(item => {
+                const matchesSearch = item.title.toLowerCase().includes(searchText) || item.description.toLowerCase().includes(searchText);
+                const matchesType = selectedType === 'all' || item.type === selectedType;
+                const matchesThinking = selectedThinking === 'all' || item.thinking === selectedThinking;
+                const matchesTools = selectedTools === 'all' || item.tools === selectedTools;
+
+                return matchesSearch && matchesType && matchesThinking && matchesTools;
+            });
+
+            renderCards(filtered);
+        }
+
+        searchInput.addEventListener('input', filterData);
+        typeFilter.addEventListener('change', filterData);
+        thinkingFilter.addEventListener('change', filterData);
+        toolsFilter.addEventListener('change', filterData);
+
+        // العرض الأولي
+        renderCards(strategies);
+    </script>
+</body>
+</html>
