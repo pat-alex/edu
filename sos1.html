@@ -1,358 +1,661 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل استراتيجيات التدريس التفاعلي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --bg: #f8f9fa;
-            --card-bg: #ffffff;
-            --text: #2c3e50;
-            --border: #e9ecef;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>دليل استراتيجيات التدريس</title>
+  <!-- خط Cairo للقراءة المريحة -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: light-dark(#f8fafc, #0f172a);
+      --surface: light-dark(#ffffff, #1e293b);
+      --surface2: light-dark(#f1f5f9, #334155);
+      --text: light-dark(#0f172a, #f8fafc);
+      --muted: light-dark(#64748b, #94a3b8);
+      --border: light-dark(#e2e8f0, #334155);
+      --accent: light-dark(#4f46e5, #6366f1);
+      --accent-hover: light-dark(#4338ca, #818cf8);
+      --accent-light: light-dark(#eef2ff, #1e1b4b);
+      
+      /* ألوان الوسوم المميزة */
+      --chip-mode-bg: light-dark(#ecfdf5, #064e3b);
+      --chip-mode-text: light-dark(#047857, #a7f3d0);
+      
+      --chip-thinking-bg: light-dark(#eff6ff, #1e3a8a);
+      --chip-thinking-text: light-dark(#1d4ed8, #bfdbfe);
+      
+      --chip-tool-bg: light-dark(#fff7ed, #7c2d12);
+      --chip-tool-text: light-dark(#c2410c, #fed7aa);
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Tajawal', sans-serif;
-        }
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            padding: 20px;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+    body {
+      font-family: 'Cairo', Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 8px;
-        }
+    #app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .filters-container {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
+    header {
+      padding: 48px 5vw 36px;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
 
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-        }
+    header::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -20%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+      opacity: 0.08;
+      pointer-events: none;
+    }
 
-        .filter-group label {
-            font-weight: bold;
-            margin-bottom: 6px;
-            color: var(--primary);
-            font-size: 0.95rem;
-        }
+    .wrap {
+      max-width: 1280px;
+      margin: auto;
+      width: 100%;
+    }
 
-        select, input {
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
+    h1 {
+      font-size: clamp(26px, 3.5vw, 42px);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
 
-        select:focus, input:focus {
-            border-color: var(--accent);
-        }
+    .lead {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 800px;
+      line-height: 1.8;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
+    .stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        }
+    .stat b {
+      color: var(--accent);
+      font-size: 16px;
+    }
 
-        .card h3 {
-            color: var(--accent);
-            margin-bottom: 10px;
-            border-bottom: 2px solid var(--bg);
-            padding-bottom: 6px;
-        }
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 24px 5vw 60px;
+      flex: 1;
+    }
 
-        .card p {
-            font-size: 0.95rem;
-            color: #555;
-            margin-bottom: 15px;
-            flex-grow: 1;
-        }
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 16px 0;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
 
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
+    .search-box {
+      position: relative;
+    }
 
-        .tag {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 500;
-        }
+    .search {
+      width: 100%;
+      padding: 16px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow);
+    }
 
-        .tag-type { background-color: #e3f2fd; color: #1976d2; }
-        .tag-thinking { background-color: #f3e5f5; color: #7b1fa2; }
-        .tag-tools { background-color: #e8f5e9; color: #388e3c; }
+    .search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-light);
+    }
 
-        .no-results {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 40px;
-            color: #777;
-            font-size: 1.1rem;
-        }
-    </style>
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    select {
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    .num-count {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .num-badge {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    .excerpt {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13.5px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .chip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+
+    .chip-mode {
+      background: var(--chip-mode-bg);
+      color: var(--chip-mode-text);
+    }
+
+    .chip-thinking {
+      background: var(--chip-thinking-bg);
+      color: var(--chip-thinking-text);
+    }
+
+    .chip-tool {
+      background: var(--chip-tool-bg);
+      color: var(--chip-tool-text);
+    }
+
+    .empty {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--muted);
+      grid-column: 1 / -1;
+      font-size: 16px;
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px dashed var(--border);
+    }
+
+    /* Modal Styling */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .dialog {
+      width: min(850px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+
+    .modal.open .dialog {
+      transform: scale(1);
+    }
+
+    .close {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      border: 0;
+      background: var(--surface2);
+      color: var(--text);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .close:hover {
+      background: var(--border);
+    }
+
+    .detail-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      padding-left: 40px;
+    }
+
+    .detail-content {
+      line-height: 1.9;
+      font-size: 15px;
+      white-space: pre-wrap;
+      color: var(--text);
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 768px) {
+      .filters {
+        grid-template-columns: 1fr;
+      }
+      main {
+        padding-inline: 4vw;
+      }
+      header {
+        padding-inline: 4vw;
+      }
+      .dialog {
+        padding: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-
+  <div id="app">
     <header>
-        <h1>موسوعة استراتيجيات التدريس التفاعلية</h1>
-        <p>مصنفة حسب نوع التنفيذ، طريقة التفكير، والأدوات المستخدمة</p>
+      <div class="wrap">
+        <h1>دليل استراتيجيات التدريس</h1>
+        <p class="lead">مكتبة تفاعلية لاستعراض الاستراتيجيات والبحث فيها وتصنيفها بأكثر من زاوية: نمط العمل، طريقة التفكير، والأدوات المستخدمة.</p>
+        <div class="stats">
+          <div class="stat">العدد إجمالي: <b id="total-stat">68</b> استراتيجية</div>
+          <div class="stat">بحث فوري واستجابة سريعة</div>
+          <div class="stat">تصنيفات متعددة المحاور</div>
+        </div>
+      </div>
     </header>
 
-    <section class="filters-container">
-        <div class="filter-group">
-            <label for="search">بحث باسم الاستراتيجية:</label>
-            <input type="text" id="search" placeholder="ابحث هنا...">
+    <main>
+      <div class="toolbar">
+        <div class="search-box">
+          <input id="q" class="search" placeholder="ابحث باسم الاستراتيجية أو داخل محتواها…">
         </div>
+        <div class="filters">
+          <select id="mode">
+            <option value="">كل أنماط العمل</option>
+            <option value="فردي">فردي</option>
+            <option value="ثنائي">ثنائي</option>
+            <option value="جماعي">جماعي</option>
+            <option value="مرن">مرن</option>
+          </select>
 
-        <div class="filter-group">
-            <label for="typeFilter">نوع التنفيذ:</label>
-            <select id="typeFilter">
-                <option value="all">الكل</option>
-                <option value="فردي">فردي</option>
-                <option value="ثنائي">ثنائي</option>
-                <option value="مجموعات صغيرة">مجموعات صغيرة</option>
-                <option value="جماعي / الصف كامل">جماعي / الصف كامل</option>
-            </select>
+          <select id="thinking">
+            <option value="">كل طرق التفكير</option>
+            <option value="تفكير إبداعي">تفكير إبداعي</option>
+            <option value="تفكير نقدي">تفكير نقدي</option>
+            <option value="حل المشكلات">حل المشكلات</option>
+            <option value="استقصاء واكتشاف">استقصاء واكتشاف</option>
+            <option value="استدلال واستقراء">استدلال واستقراء</option>
+            <option value="تواصل وحوار">تواصل وحوار</option>
+            <option value="تنظيم المعرفة">تنظيم المعرفة</option>
+            <option value="تذكر وفهم">تذكر وفهم</option>
+            <option value="فهم وتطبيق">فهم وتطبيق</option>
+          </select>
+
+          <select id="tool">
+            <option value="">كل الأدوات</option>
+            <option value="بطاقات">بطاقات</option>
+            <option value="صور">صور</option>
+            <option value="فيديو">فيديو</option>
+            <option value="أوراق/ملاحظات">أوراق/ملاحظات</option>
+            <option value="ألعاب">ألعاب</option>
+            <option value="أدوات صفية">أدوات صفية</option>
+            <option value="خرائط/مخططات">خرائط/مخططات</option>
+            <option value="دمى/تمثيل">دمى/تمثيل</option>
+            <option value="تقنية/عرض">تقنية/عرض</option>
+            <option value="لا تتطلب أداة محددة">لا تتطلب أداة محددة</option>
+          </select>
         </div>
+      </div>
 
-        <div class="filter-group">
-            <label for="thinkingFilter">طريقة التفكير:</label>
-            <select id="thinkingFilter">
-                <option value="all">الكل</option>
-                <option value="إبداعي وتخيل">إبداعي وتخيل</option>
-                <option value="ناقد وتأملي">ناقد وتأملي</option>
-                <option value="تحليلي واستقرائي">تحليلي واستقرائي</option>
-                <option value="حل المشكلات">حل المشكلات</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label for="toolsFilter">الأدوات المستخدمة:</label>
-            <select id="toolsFilter">
-                <option value="all">الكل</option>
-                <option value="بطاقات وأوراق">بطاقات وأوراق</option>
-                <option value="وسائط رقمية وفيديو">وسائط رقمية وفيديو</option>
-                <option value="أدوات حسية وألعاب">أدوات حسية وألعاب</option>
-                <option value="بدون أدوات / شفهي">بدون أدوات / شفهي</option>
-            </select>
-        </div>
-    </section>
-
-    <main class="grid" id="strategiesGrid">
-        <!-- يتم عرض البطاقات هنا عبر JavaScript -->
+      <div id="count" class="num-count"></div>
+      <section id="grid" class="grid"></section>
     </main>
 
-    <script>
-        // بيانات الاستراتيجيات مستخرجة من محتوى الملف
-        const strategies = [
-            {
-                title: "إستراتيجية التعلم بالتخيل",
-                description: "إثارة مشاركة فاعلة بين الطلاب عبر ممارسة التخيل في مكان هادئ وتفريغ الذهن للتفكير في موضوع محدد مع قائد للتوجيه.",
-                type: "فردي",
-                thinking: "إبداعي وتخيل",
-                tools: "بدون أدوات / شفهي"
-            },
-            {
-                title: "إستراتيجية البطاقات المروحية",
-                description: "تقسيم الطلاب لمجموعات وتوزيع أسئلة ببطاقات على شكل مروحة، حيث يقدم كل طالب دور محدد (سحب، قراءة، إجابة، تقييم).",
-                type: "مجموعات صغيرة",
-                thinking: "تحليلي واستقرائي",
-                tools: "بطاقات وأوراق"
-            },
-            {
-                title: "إستراتيجية العمل الجماعي",
-                description: "تقسيم الطلاب لمجموعات مكونة من 4 أعضاء لإنجاز واجبات معينة لتنمية التعاون والمسؤولية وتبادل الأفكار.",
-                type: "مجموعات صغيرة",
-                thinking: "ناقد وتأملي",
-                tools: "بدون أدوات / شفهي"
-            },
-            {
-                title: "إستراتيجية المبعوثون",
-                description: "تبحث كل مجموعة موضوعاً، ثم يتجول مبعوث ليشرح للمجموعات الأخرى ويعود لنقل ما تعلمه لمجموعته الأصلية.",
-                type: "مجموعات صغيرة",
-                thinking: "تحليلي واستقرائي",
-                tools: "بدون أدوات / شفهي"
-            },
-            {
-                title: "إستراتيجية حوض السمك",
-                description: "جلوس 4-5 طلاب في دائرة داخلية لمناقشة موضوع بينما يلاحظ باقي الطلاب في الدائرة الخارجية ثم تبادل الأدوار.",
-                type: "جماعي / الصف كامل",
-                thinking: "ناقد وتأملي",
-                tools: "بدون أدوات / شفهي"
-            },
-            {
-                title: "إستراتيجية الإيقاف المؤقت والتشغيل",
-                description: "عرض مقطع فيديو مع إيقافه مؤقتاً عند محطات محددة لطرح أسئلة توجيهية وتنظيم مدخلات الفهم قبل النقاش.",
-                type: "جماعي / الصف كامل",
-                thinking: "ناقد وتأملي",
-                tools: "وسائط رقمية وفيديو"
-            },
-            {
-                title: "إستراتيجية أعواد المثلجات",
-                description: "كتابة أسماء الطلاب على أعواد وسحب عود عشوائياً عند توجيه الأسئلة للتشجيع على الاستماع والمشاركة الفعالة.",
-                type: "جماعي / الصف كامل",
-                thinking: "ناقد وتأملي",
-                tools: "أدوات حسية وألعاب"
-            },
-            {
-                title: "إستراتيجية القبعات الست",
-                description: "تقسيم التفكير إلى 6 أنماط (ملونة) يعالج فيها الفرد أو المجموعة جوانب موضوع محدد دون تداخل بين النمط والآخر.",
-                type: "مجموعات صغيرة",
-                thinking: "إبداعي وتخيل",
-                tools: "بدون أدوات / شفهي"
-            },
-            {
-                title: "إستراتيجية حل المشكلات",
-                description: "صياغة المقرر في صورة مشكلات تتطلب الإحساس بها، فرض الفروض، اختبارها، والوصول لأحكام عامة.",
-                type: "مجموعات صغيرة",
-                thinking: "حل المشكلات",
-                tools: "بدون أدوات / شفهي"
-            },
-            {
-                title: "إستراتيجية فكر ، زاوج ، شارك",
-                description: "يفكر الطالب منفرداً، ثم يتشارك مع زميله للاتفاق على إجابة، ثم تشارك المجموعة الثنائية مع الصف.",
-                type: "ثنائي",
-                thinking: "ناقد وتأملي",
-                tools: "بدون أدوات / شفهي"
-            },
-            {
-                title: "إستراتيجية الخرائط المفاهيمية",
-                description: "عرض المعرفة بأشكال تخطيطية تربط المفاهيم بأسهم وخطوط لتسهيل تنظيم واسترجاع المعلومات.",
-                type: "فردي",
-                thinking: "تحليلي واستقرائي",
-                tools: "بطاقات وأوراق"
-            },
-            {
-                title: "إستراتيجية معركة كرات الثلج",
-                description: "يكتب كل طالب حقيقة تعلمها في ورقة، ويكورها ثم يقذفها في الهواء ليلتقط زميله الورقة ويضيف تفصيلاً آخر.",
-                type: "جماعي / الصف كامل",
-                thinking: "إبداعي وتخيل",
-                tools: "بطاقات وأوراق"
-            },
-            {
-                title: "إستراتيجية السكوت من ذهب",
-                description: "عرض فيديو بدون صوت وجعل الطلاب يناقشون ويتوقعون ما يرونه بصوت عالٍ لبناء استدلالات عميقة.",
-                type: "جماعي / الصف كامل",
-                thinking: "ناقد وتأملي",
-                tools: "وسائط رقمية وفيديو"
-            },
-            {
-                title: "إستراتيجية هل سمعت ذلك؟",
-                description: "تشغيل مؤثرات صوتية دون كشف مصدرها وتخيل قصة ترتبط بأصوات وتدوينها.",
-                type: "فردي",
-                thinking: "إبداعي وتخيل",
-                tools: "وسائط رقمية وفيديو"
-            }
-        ];
+    <div id="modal" class="modal">
+      <article class="dialog">
+        <button class="close" id="close" aria-label="إغلاق">&times;</button>
+        <div id="detail"></div>
+      </article>
+    </div>
+  </div>
 
-        const grid = document.getElementById('strategiesGrid');
-        const searchInput = document.getElementById('search');
-        const typeFilter = document.getElementById('typeFilter');
-        const thinkingFilter = document.getElementById('thinkingFilter');
-        const toolsFilter = document.getElementById('toolsFilter');
+  <script>
+    // البيانات الكاملة لجميع الـ 68 استراتيجية
+    const DATA = [
+      {"id": 1, "title": "إستراتيجية لعبة التركيب", "content": "توزيع بطاقات على الطلبة في مجموعات بحيث كل بطاقة تكمل الأخرى وعلى كل مجموعة أن تبحث عن البطاقة المكملة لبطاقتها في لعبة التركيب. وهذا ممكن في التعاريف وغيرها.", "mode": ["جماعي"], "thinking": ["استقصاء واكتشاف"], "tools": ["بطاقات", "ألعاب"]},
+      {"id": 2, "title": "إستراتيجية رمي الكرة", "content": "في هذه الإستراتيجية يمكن أخذ الطلبة لفناء المدرسة ويطلب منهم الوقوف على شكل دائرة وعلى المعلم الوقوف داخل هذه الدائرة ومعه الكرة ثم يقوم برمي الكرة على أحد الطلبة وسؤاله سؤال متعلق بالدرس ؟ ومن ثم يرمي المعلم الكرة على طالب أخر وهكذا", "mode": ["مرن"], "thinking": ["فهم وتطبيق"], "tools": ["أدوات صفية"]},
+      {"id": 3, "title": "إستراتيجية التعلم بالتخيل", "content": "يؤدي استخدام إستراتيجية التعلم إلى إثارة مشاركة فاعلة بين الطلاب ، ويساعد على التعلم الإتقاني ، ويقود إلى اكتشاف أفكار جديدة ، ومن الشروط الواجب توفرها عند ممارسة التخيل في الصف ما يأتي ممارسة التخيل في مكان هادئ ، ومريح * توفير وقت كافٍ وملائم للتخيل توفير قائد للتخيل ، من أجل توجيههم خلاله. حرص الطالب على تفريغ ذهنه ، والتفكير في موضوع التخيل فقط توفير مؤثرات صوتية تلائم موضوع التخيل.", "mode": ["فردي"], "thinking": ["تفكير إبداعي", "استقصاء واكتشاف"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 4, "title": "إستراتيجية البحث عن النصف الآخر بالصور أو بالكلمات", "content": "في هذه الإستراتيجية أقوم بتوزيع بطاقات على الطلبة بحيث كل بطاقة تكمل الأخرى وعلى كل طالب أن يبحث عن البطاقة المكملة لبطاقته", "mode": ["فردي"], "thinking": ["استقصاء واكتشاف", "تذكر وفهم"], "tools": ["بطاقات", "صور"]},
+      {"id": 5, "title": "إستراتيجية البطاقات المروحية", "content": "هي إستراتيجية من استراتيجيات التعلم النشط ، والتي تعتمد على تقييم مستوى فهم الطالب للدرس ، وذلك بوضع مجموعة من الأسئلة في بطاقات يتم عرضها بشكل المروحة . خطوات إستراتيجية البطاقات المروحية :\n١) يصمم المعلم بطاقة أسئلة عن الدروس السابقة أو الدرس الحالي أو يكلف الطلاب بإعدادها في وقت سابق.\n٢) يقسم الطلاب إلى مجاميع صغيرة ( أربعة طلاب في كل مجموعة ) :\nالطالب الأول : يجعل البطاقات على شكل مروحة ويطلب من الطالب الثاني سحب بطاقة.\nالطالب الثاني : يقرأ بصوت مرتفع السؤال على الطالب الثالث ويقول له أمامك خمس ثواني .\nالطالب الثالث : يجيب عن السؤال.\nالطالب الرابع : يقيم الإجابة إن كانت صحيحة يثني على زميله ويشجعه ، وإن كانت خاطئة يدربه على الإجابة الصحيحة .\n٣) تكرر المهمة بين الطلاب في البطاقات الأخرى.", "mode": ["ثنائي", "جماعي"], "thinking": ["تفكير نقدي", "تواصل وحوار"], "tools": ["بطاقات", "تقنية/عرض"]},
+      {"id": 6, "title": "إستراتيجية العمل الجماعي", "content": "يعد المعلم هو المسؤول الأول عن نجاح عمل المجموعات ، ثم الأسرة ، ومن أهداف العمل الجماعي ، التعلم النشط ، والاكتساب الاجتماعي الذي يعود عليهم أفراداً وجماعة ، وتتم هذه الإستراتيجية من خلال تقسيم الطلاب إلى عدة مجموعات صغيرة مكونة من ٤ أعضاء ، ثم إعطائهم واجبات معينة.\nومن مزايا هذه الإستراتيجية :\n- أنها تكسب المتعلم كفاءة عملية تنمي روح المسؤولية لديه اتجاه مجتمعه ونفسه.\n- تنمي روح التعاون.\n- تعرف المعلم على حاجات التلاميذ .\n- تساعد على تبادل الأفكار فيما بينهم بالإضافة إلى أنها تزيد من تقبل أفكار الآخرين.", "mode": ["جماعي"], "thinking": ["فهم وتطبيق"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 7, "title": "إستراتيجية المبعوثون", "content": "المبعوثون هو نشاط يقوم فيه كل الطلبة ببحث ، ثم يخرج البعض لتدريسه بينما يتلقى الباقي الدرس ، يقوم المعلم بالتالي :\nتقسيم الفصل إلى مجموعات كل مجموعة تبحث في موضوع .\nشخص واحد من كل مجموعة يتجول في الغرفة ويشرح موضوع مجموعته للمجموعات الأخرى بعد أن يتم التدريس لكل المجموعات من قبل كل المبعوثين ، يعود المبعوثون إلى مجموعتهم الأصلية .\nهنا يتم إخبارهم بكل شيء تعلمته مجموعتهم الأصلية .", "mode": ["جماعي"], "thinking": ["استقصاء واكتشاف"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 8, "title": "إستراتيجية ساعي البريد", "content": "يقوم المعلم باختيار أحد الطلبة ليقوم بدور ساعي البريد ويحمل الحقيبة التي بها مجموعة من الأوراق مكتوب عليها بعض الأسئلة كرسائل لباقي الطلبة.\nيقوم الطالب (ساعي البريد) بتوزيع هذه الرسائل على الطلبة.\nيقوم كل طالب بقراءة رسالته وتنفيذ ما جاء بالرسالة.\nيتم التعليق علي إجابات الطلبة بعد انتهاء كل واحد منهم.", "mode": ["جماعي"], "thinking": ["تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 9, "title": "إستراتيجية الأسئلة التي تستثير الهمم", "content": "استخدم الأسئلة التي تستثير الهمم ليبذل الطلبة الأعلى قدرة جهداً كبيراً ، وفيما يلي بعض أنواع الأسئلة التي يمكنك الاعتماد عليها :\n- أسئلة تقييم (احكم وقيم وانقد ودافع)\n- أسئلة إبداع (خطط ووحد وادمج واخلق)\n- أسئلة مقارنة (كيف يمكن مقارنتها ؟ كيف تختلف ؟ ماذا تشبه ولماذا ؟ )\n- أسئلة عميقة ( أسئلة فلسفية وسيناريوهات «ماذا لو » وأسئلة عن القيم ) .\n- أسئلة بنمط أسئلة الاختبارات .", "mode": ["مرن"], "thinking": ["تفكير إبداعي", "تفكير نقدي", "تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 10, "title": "إستراتيجية بطاقات الفرز", "content": "بطاقات الفرز هو نشاط جيد لأنه يسمح للطلبة بفرز وترتيب ومطابقة المعلومات . هو سهل التناول لأن المعلومات مرئية ويمكن معالجتها مادياً ، وقد يجد بعض الطلبة أن العمليات المعرفية الموازية يصعب مواكبتها إن لم يكن لديهم شيئاً ملموساً لدعمهم . يُنصح بعمل بطاقات فرز مقواة باستخدام قطعة من الكرتون في أعلى وأسفل جزء من البطاقة ، مما يجعلها أقل عرضة للتلف ويمكن استخدام نفس البطاقات عاماً بعد عام .", "mode": ["مرن"], "thinking": ["تنظيم المعرفة"], "tools": ["بطاقات", "تقنية/عرض"]},
+      {"id": 11, "title": "إستراتيجية ركن الخبراء", "content": "ابحث عن طالب يشعر أنه خبير في موضوع يدرسونه . يطلب من هذا الطالب الجلوس في أحد أركان الغرفة ، ويتم إعطائه طاولة ومقعدين ( مقعد له والآخر للطلبة الذين يذهبون إليه ) . يُكلف الفصل بمهمة ، ويتم إبلاغهم بأن من لديه أي سؤال عليه التوجه إلى ركن الخبير للمساعدة . يمكنك تطوير النشاط بأن يكون لديك خبيرين أو ثلاثة خبراء في أماكن مختلفة من الغرفة.", "mode": ["جماعي"], "thinking": ["استقصاء واكتشاف"], "tools": ["أدوات صفية"]},
+      {"id": 12, "title": "إستراتيجية طرح الطلبة للأسئلة", "content": "يقوم المعلم بتشجيع طلابه على طرح الأسئلة وبذلك يحقق أكثر من فائدة مثل :\n- يمكن للطلبة طرح الأسئلة بالشكل الذي يرتاحون له.\n- يمكن للطلبة سماع أسئلة الآخرين.\n- يمكن للطلبة ملاحظة كيفية إجابة المعلم على الأسئلة.\n- يمكن للطلبة معرفة معلومات من ردود المعلم.\n- يمكن للمعلم معرفة المجالات التي يرغب الطلبة في معرفتها.", "mode": ["فردي"], "thinking": ["تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 13, "title": "إستراتيجية أعطني السؤال", "content": "يقوم المعلم بكتابة إجابة سؤال ما ويطلب من الطلبة إعطاء السؤال المناسب لهذه الإجابة .", "mode": ["فردي"], "thinking": ["فهم وتطبيق"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 14, "title": "إستراتيجية الجلوس على المقعد الساخن", "content": "في هذه الإستراتيجية يقوم المعلم بوضع مقعد في مقدمة الفصل أمام طلابه ويقوم أحد الطلبة بالجلوس على هذا المقعد ويكون مستعدا للإجابة على أسئلة عن موضوع الدرس ، ويقوم باقى الطلبة بالتفكير في أسئلة يطرحونها على زميلهم ليجيب عليها ، وأيضاً يمكن أن يتبادل الطلاب الجلوس على المقعد الساخن.", "mode": ["ثنائي", "جماعي"], "thinking": ["تواصل وحوار"], "tools": ["أدوات صفية"]},
+      {"id": 15, "title": "إستراتيجية حوض السمك", "content": "تُعد إستراتيجية حوض السمك من الاستراتيجيات التدريسية القائمة على التعلم النشط القائم على التدريب الجماعي ، وذلك من خلال ملاحظة الطالب ومتابعته مناقشة موضوع ما بين أعضاء المجموعات التي يلاحظها الطالب، ومدى تأثير ذلك على سلوكيات ونواتج أعضاء المجموعات.\nكيفية تنفيذ إستراتيجية حوض السمك :\nتقوم هذه الإستراتيجية على ترتيب أربع أو خمسة مقاعد في دائرة مغلقة تمثل شكل حوض السمك ، وباقي المقاعد يتم ترتيبها على شكل دائرة خارج حوض السمك ، ويتم اختيار بعض من المشاركين لملء حوض السمك ، في حين يجلس بقية أفراد المجموعة على المقاعد خارج حوض السمك ، يناقش المشاركون في الدائرة الأولى التي تسمى حوض السمك موضوع ما ؛ في حين يجلس الطلاب الملاحظون في الدائرة الثانية خارج حوض السمك يستمعون ويسجلون ملاحظاتهم بصمت. وبعد ۱۰ - ۱۵ دقيقة يتبادل أعضاء الدائرتين أماكنهم ، وبعد ١٠ - ١٥ دقيقة أخرى يتجمع الطلاب جميعاً للتشارك فيما قاموا بملاحظته ويناقشوا المحتوى الذي قدم لهم في التدريب.", "mode": ["جماعي"], "thinking": ["تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 16, "title": "إستراتيجية تدريس الطلبة (تبادل الأدوار)", "content": "في هذه الإستراتيجية يخلق المعلم فرصة لطلابه بتولي التدريس ، ومن طرق تنفيذ تلك الإستراتيجية :\n١- أن يطلب المعلم من مجموعة من طلابه تحضير وإعداد عرض تقديمى لدرس ما أو جزء منه ، ثم عرضه على الفصل بالكامل داخل الحصة ومناقشتهم فيه.\n٢- أن يسأل المعلم طلابه من الذي لديه خبرة عن موضوع الدرس ، ومن ثم يختار أحدهم ليقوم بشرح الدرس لباقي زملائه في الفصل.\n٣- أن يطلب المعلم من أحد طلابه بعد شرحه لجزء من الدرس أن يعيد هذا الشرح مرة أخرى.", "mode": ["جماعي"], "thinking": ["فهم وتطبيق"], "tools": ["تقنية/عرض"]},
+      {"id": 17, "title": "إستراتيجية حائط العجائب", "content": "خلق مساحة على حائط فصلك تُسمى « حائط العجائب » وإذا أردت أن يبدو جداراً يمكنك رسم طوب بالطباشير على ورق أسود . عندما يفكر الطلبة في أسئلة ولا يوجد ما يكفي من الوقت لاستكشاف ذلك ، أطلب منهم كتابتها على قصاصات ملاحظات لاصقة ولصقها على حائط العجائب . عندما ينتهي الطلبة من المهام التي وضعتها في الدرس ، أطلب منهم جلب سؤال من « حائط العجائب » ودراسته إما مع زميل أو بالكتابة.", "mode": ["ثنائي"], "thinking": ["تواصل وحوار"], "tools": ["أوراق/ملاحظات", "أدوات صفية"]},
+      {"id": 18, "title": "إستراتيجية العمل في ثنائيات", "content": "العمل في ثنائيات يسمح للطلبة بمناقشة سؤال أو مهمة ، وهذا يساعدهم لتنمية فهمهم. قد ترغب في تكوين ثنائيات من طالب أقوى وآخر أضعف حتى يتمكن الأول من مساعدة الأخير لتناول ما يجدوه صعباً على كل واحد منهما بمفرده. بدلاً من ذلك ، قد ترغب في تكوين ثنائي من طالبين ضعفاء بحيث يمكنك العمل معهما بنفسك ، وهذا سيسمح لك بمساعدة كلاهما لإحراز تقدم جيد.", "mode": ["فردي", "ثنائي"], "thinking": ["تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 19, "title": "إستراتيجية الإيقاف المؤقت والتشغيل (فيلم قصير)", "content": "يتم عرض فيلم قصير وطرح بعض الأسئلة للتوصل إلى موضوع الدرس ؛ حيث تختلف مشاهدة مقطع فيديو لأغراض أكاديمية عن مشاهدة مقطع فيديو بغرض الترفيه فإن مجرد الضغط على زر التشغيل لا يضمن استفادة الطلاب على مستوى الاستيعاب أو التعلم ؛ حيث يجب أن يطبق الطلاب استراتيجيات الفهم من أجل استيعاب محتوى المادة المعروضة أمامهم ، بنفس الطريقة التي يتعاملون بها مع النصوص المكتوبة. وتعمل إستراتيجية “ الإيقاف المؤقت والتشغيل “ كما يشير اسمها ؛ حيث يتم استخدام أسلوب الإيقاف المؤقت والتشغيل عند مشاركة مقطع فيديو مع الطلاب . تهدف هذه الإستراتيجية البسيطة والفعالة إلى توجيه الطلاب للتركيز على فهم المحتوى المعروض في مقطع الفيديو .", "mode": ["مرن"], "thinking": ["تواصل وحوار"], "tools": ["فيديو", "تقنية/عرض"]},
+      {"id": 20, "title": "إستراتيجية الخبرات الشخصية", "content": "هناك ثلاث طرق حيث يمكنك استخدام الخبرات الشخصية للطلبة لمساعدتهم على التعلم :\n١ - بناء المهام والأسئلة في دروسك والتي تتطلب من الطلبة استدعاء خبراتهم الخاصة .\n۲ - شرح كيفية ربط الموضوعات التي تغطيها في درسك بخبرات الناس اليومية.\n٣ - حاول معرفة المزيد عن خبرات تلاميذك ، واستعن بها أثناء تدريسك إن أمكن فقد تستخدمها من أجل توضيح أكثر لبعض النقاط وربطها بشكل أكبر بطلبتك.", "mode": ["فردي"], "thinking": ["تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 21, "title": "إستراتيجية عرض صورة مرتبطة بالدرس", "content": "يقوم المعلم بعرض صورة معينة على الطلبة ويتم إعطاء الطلبة دقيقتين للتدقيق في الصورة ثم يتم سحب الصورة وطرح أسئلة دقيقة جداً عن الصورة.", "mode": ["فردي"], "thinking": ["تواصل وحوار", "تذكر وفهم"], "tools": ["صور", "تقنية/عرض"]},
+      {"id": 22, "title": "إستراتيجية تخيل النهاية", "content": "يتم قراءة قصة قصيرة للطلبة أو موقف وعلى الطلبة إغلاق أعينهم لمدة دقيقة وتخيل نهاية هذه القصة.", "mode": ["فردي"], "thinking": ["تفكير إبداعي"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 23, "title": "إستراتيجية الصور", "content": "الصور المرتبطة بالكلمات المستخدمة تساعد الطلبة في فهم العمل . ستلاحظ ذلك في هذا العرض التقديمي حيث يوجد صورة على كل شريحة ترتبط بالإستراتيجية أو الأسلوب. قم بالتمييز بتضمين صورة ذات صلة بكل مصدر تصنعه، استخدم متصفح صور جوجل للعثور على صور بسرعة . ميزة إضافية للصور هي الحد من كمية النص التي يمكنك تضمينها ( الكثير من النصوص عادة يضر ) .", "mode": ["فردي"], "thinking": ["تذكر وفهم"], "tools": ["صور", "تقنية/عرض"]},
+      {"id": 24, "title": "إستراتيجية أعواد المثلجات", "content": "تستخدم هذه الإستراتيجية لتشجيع جميع الطلاب على الاستماع الفعال والمشاركة الفعالة في مناقشات الفصل . وطريقة أعواد المثلجات مناسبة بشكل خاص عندما تستخدم في الأسئلة المفتوحة ، حيث يركز الطلاب انتباههم ليتشاركوا الأفكار مع زملائهم الآخرين حول الدرس.\nخطوات الإستراتيجية :\n۱ - يكتب اسم كل طالب على أعواد المثلجات ( أيس كريم ) .\n۲- ضع الأعواد في علبة في مقدمة الفصل واخبرهم بالطريقة وكيف تتم .\n٣ - عند عقد مناقشة مع الطلاب وتوجيه سؤال لهم اسحب بشكل عشوائي وهم يشاهدونك تسحب أحد الأعواد واطلب من الطالب الذي يوجد عليه اسمه أن يجيب على هذا السؤال.\n٤- يعود المعلم مرة أخرى للشرح أو للدرس ، بعد أن يرجع العود إلى العلبة مرة أخرى ، والسبب في ذلك حتى يدرك الطالب أنه من الممكن أن يوجه له السؤال مرة أخرى.", "mode": ["جماعي"], "thinking": ["تواصل وحوار"], "tools": ["أدوات صفية"]},
+      {"id": 25, "title": "إستراتيجية المتضادات", "content": "المتضادات هي كلمات عكس بعضها : مضاد كلمة كبير : صغير ، مضاد كلمة أبيض : أسود ، مضاد كلمة سريع : بطيء . عند تقديم كلمات جديدة للطلبة، تحدث معهم عن المتضادات لهذه الكلمات هذا سيساعد الطلبة على فهم الكلمات الجديدة ، سيجعل ما لا تعنيه الكلمة واضح ( وبالتالي ما تعنيه ) . إذا أمكن استخدم متضادات بسيطة يسهل على الطلبة التعرف عليها .", "mode": ["مرن"], "thinking": ["تذكر وفهم"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 26, "title": "إستراتيجية التقابل", "content": "اطلب من كل طالبين أن يقفا مقابل بعضهما لكن أحد الطالبين يقف مقابل السبورة ، ومن ثم كتابة كلمة على السبورة متعلقة بالدرس. اطلب من الطالب الذي يقابل السبورة أن يوضح الكلمة أو يفسرها من دون إعطاء الجواب مباشرة إلى الطالب الأخر وتحديد وقت من الزمن لذلك.", "mode": ["ثنائي"], "thinking": ["فهم وتطبيق"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 27, "title": "إستراتيجية نمذجة المحادثة", "content": "أشرك طالب في محادثة أمام كل الفصل ، قد يكون هذا جزءاً من مناقشة لكامل الفصل أو جزءاً من جلسة أسئلة وأجوبة. استخدم محادثتك لنمذجة كيفية استخدام الكلمات الرئيسية أو المفردات التقنية أو الأفكار المتعلمة حديثاً. قد تحب اختيار طالب تعرف مدى تمكنه من المادة التعليمية للحديث معه . بعد ذلك ، ابدأ مع الفصل مهمة مناقشة تتضمن استخدامهم لما قمت بنمذجته.", "mode": ["فردي", "جماعي"], "thinking": ["تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 28, "title": "إستراتيجية التمييز بالمخرجات", "content": "خطط لمهام يمكن تناولها بطرق مختلفة ، بحيث يمكن للطلبة التعامل مع المهام عند مستوى يشعرون عنده بقدرتهم على تناولها (وبالتالي يشعرون بالسعادة عند القيام بها) . هذه المهام سينتج منها التمييز بالمخرجات.\nيمكن تلخيص هذا النموذج كالتالي :\nأعِد مهاماً يمكن لكل الطلبة القيام بها ، ولكنها مفتوحة بما فيه الكفاية لهم للقيام بها على أفضل ما يكون وفقاً لقدراتهم . المفتاح هنا هو تجنب المهام التي تتطلب استجابة محددة للغاية بحيث تترك مساحة في المهام للطلبة للمناورة.", "mode": ["مرن"], "thinking": ["فهم وتطبيق"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 29, "title": "إستراتيجية المطابقة والتجميع والترتيب", "content": "المطابقة والتجميع والترتيب هي أنشطة جيدة لأنها في متناول جميع الطلبة. في الوقت نفسه ، فإنها تستدعي مستويات مختلفة من الفكر، فعلى سبيل المثال ، قد يكون هناك طالباً ذا قدرة عالية يستطيع تقديم حجة تفصيلية تشرح ترتيبه لمجموعة من العناصر، في حين أن الطالب ذو القدرة الأقل قد يختار بدلا من ذلك الإشارة إلى الخبرة والمقارنات . أنواع الأنشطة الثلاث تستدعي أيضاً تدقيق الأفكار والعناصر من خلال عملية محددة، وذلك لأن المطابقة والتجميع والترتيب إما أن تكون على مواد مادية مثل البطاقات أو تدوين الكلمات وإعادة ترتيبها.", "mode": ["جماعي"], "thinking": ["تنظيم المعرفة"], "tools": ["بطاقات"]},
+      {"id": 30, "title": "إستراتيجية الأنشطة المفتوحة", "content": "الأنشطة المفتوحة هي تلك التي يحدد المعلم فيها المبادئ التوجيهية ولكن يتركها للطلبة لاتخاذ قرار بشأن كيفية تحقيقها ، وفيما يلي بعض الأمثلة :\n- « هنا توجد قائمة بالأمور التي يجب عليك القيام بها ، والأمر متروك لك لكيفية قيامك بها ، والقاعدة الوحيدة هي أنك يجب أن تكون قادراً على عرض عملك علي » .\n- اطرح على الطلبة سؤالاً أو عبارة واطلب منهم الرد عليه بطريقة يرونها مناسبة ( قد ترغب في طرح بعض الأفكار في حالة مواجهتهم مشكلة ) .\n- أخبر الطلبة أين ينبغي أن يكونوا في نهاية الدرس ومن ثم اطلب منهم العمل على طريقتهم الخاصة للوصول إلى هناك ( سوف تحتاج إلى تقديم الدعم إلى الطلبة الأضعف ) .", "mode": ["مرن"], "thinking": ["حل المشكلات"], "tools": ["تقنية/عرض"]},
+      {"id": 31, "title": "إستراتيجية الحلقات الدائرية", "content": "تلخيص ما تم دراسته بصورة ثنائية في حلقة دائرية. ترتيب الطلبة في حلقة دائرية داخلية وحلقة دائرية خارجية. كل طالبين متقابلين يتحدثان عن موضوع الدرس.", "mode": ["ثنائي"], "thinking": ["فهم وتطبيق"], "tools": ["صور"]},
+      {"id": 32, "title": "إستراتيجية ماذا يوجد داخل الصندوق", "content": "وضع شيء متعلق بالدرس داخل الصندوق ويخمن الطلبة ماذا يوجد بداخله من خلال طرح الأسئلة.", "mode": ["مرن"], "thinking": ["تواصل وحوار"], "tools": ["أدوات صفية"]},
+      {"id": 33, "title": "إستراتيجية مكعب الأسئلة", "content": "هي إستراتيجية مسلية تضفي جوا من المرح داخل الصف تقوم فكرتها على عرض موقف محفز للتفكير (نص أو قصة أو شريط مرئي)، ثم تطرح أسئلة باستخدام مكعب الأسئلة، هذه الأسئلة يراعى في تصميمها أن تكون مختلفة المستويات ومصنفة حسب تصنيف بلوم للأهداف المعرفية.\nخطوات إستراتيجية مكعب الأسئلة :\n١ - تقسيم الطلبة إلى مجموعات.\n٢ - عرض مادة تحفز على التفكير.\n٣ - تحديد الأدوار على الفريق مثلاً تقوم الطالبة رقم (1) برمي المكعب، رقم (٢) يطرح السؤال مبتدئاً بالكلمة الموجودة على المكعب، رقم (3) يجيب على السؤال، رقم (4) يؤكد أو يصحح الإجابة.\n٤ - تبادل الأدوار في المرة الأخرى.", "mode": ["جماعي"], "thinking": ["تفكير إبداعي", "تواصل وحوار"], "tools": ["ألعاب", "تقنية/عرض"]},
+      {"id": 34, "title": "إستراتيجية بحث الزملاء", "content": "بحث الزملاء يعمل كما يلي :\nاعرض موضوعاً على الطلبة ووضح أنهم سيبحثون وجهات نظر زملائهم وخبراتهم إن وجدت. أطلب منهم وضع مجموعة من الأسئلة يمكنهم طرحها عن الموضوع ، والأفضل أن يتراوح عددها بين ٥ و ۱۰ أسئلة حسب الوقت المتاح . أطلب من الطلبة إجراء مقابلة مع بعضهم البعض باستخدام أسئلتهم، وعند الانتهاء يجب على الطلبة تدوين نتائجهم.\n\nاستراتيجيات التهيئة للدرس: تحديد النقطة الأكثر أهمية في الدرس السابق وذلك بالطلب من كل طالبين أو ثلاثة المناقشة فيما بينهم وتحديد النقطة الأكثر أهمية في الدرس السابق وكتابتها في ورقة ومن ثم مناقشتها معهم من أجل بدء الدرس الجديد.", "mode": ["جماعي"], "thinking": ["استقصاء واكتشاف", "تواصل وحوار"], "tools": ["أوراق/ملاحظات", "تقنية/عرض"]},
+      {"id": 35, "title": "إستراتيجية المجموعات الطنانة", "content": "المجموعات الطنانة هي ببساطة مجموعات صغيرة من طالبين أو ثلاثة طلبة شُكلت عشوائياً لمناقشة موضوع ما لفترة قصيرة . في الثنائيات يكاد يكون من المستحيل للطالب أن يبقى صامتاً وعندما يتحدث الطلبة \" على انفراد \" غالباً ما يمكنهم التحدث بعد ذلك \" علنا \" للمجموعة بأكملها. المجموعات الطنانة مفيدة جداً لأداء العمل ، فصوت عشرة ثنائيات تطن يبعث طاقة أكثر بكثير مقارنة بشخص واحد يتحدث لمجموعة من عشرين شخصاً. الطنين يمكنه ضبط الطلبة للاستماع إلى مادة موضوعك ويختتم أفكارهم ، فمثلاً : \" لتبدأ ، دعونا نطن لمدة خمس دقائق على ما هي ردود أفعالكم الأولية للقراءات التي وضعتها لندوة هذا الأسبوع ، فلتنطلقوا \" .", "mode": ["ثنائي", "جماعي"], "thinking": ["تفكير نقدي", "تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 36, "title": "إستراتيجية مثلث الاستماع", "content": "طريقتها :\n١ - يقسم المعلم الطلبة إلى مجاميع كل مجموعة تتكون من ثلاثة طلاب.\n٢ - كل طالب في كل مجموعة له دور محدد كما يلي :\n- الطالب الأول : متحدث ، يشرح الدرس أو الفكرة أو المفهوم ... الخ.\n- الطالب الثاني : مستمع جيد ، تطرح أسئلة على الطالب الأول لمزيد من التفصيل وتوضيح الفكرة.\n- الطالب الثالث : يرقب العملية وسير الحديث بين زميليه ويقدم تغذية راجعة لهما . فهو يكتب ما يدور بين الطالبين الآخرين ويكون أشبه بالمرجع فعندما يحين دوره يقرأ من خلال مدوناته عن ما ذكره زميليه ، فيقول لقد ذكر ( أحمد ) كذا ، وذكر ( محمد ) كذا.\n٣ - تبديل الأدوار بين الطلبة .", "mode": ["ثنائي", "جماعي"], "thinking": ["تواصل وحوار"], "tools": ["أدوات صفية"]},
+      {"id": 37, "title": "إستراتيجية العروض العملية", "content": "هي طريقة توضيحية لعرض حقيقة علمية باستخدام وسائل مناسبة هي كل ما يستخدمه المعلم من تجارب ووسائل ونماذج في تدريس العلوم ويقوم بعرضها على التلاميذ . ومن ذلك : تطبيق المعلم لمهارة الخط أو الوضوء أمام الطلاب . وتسمى (بالنمذجة) لأن المتعلم يلاحظ نماذج لما هو مراد منه تعلمه ويحاول محاكاتها.\n\nدور المعلم : القيام ببعض التطبيقات العملية والمهارات كالتشريح أو إعداد القطاعات أو التجارب وغيرها.\nدور التلميذ : المشاهدة والاستنتاج وربط النتائج بالشرح النظري ويطلب من بعض التلاميذ تكرار الأداء تحت إشرافه .\n\nمزايا العروض العملية :\n١ - تتيح الفرصة للتلميذ بالقرب من المهارات وذلك عن طريق المشاهدة .\n٢ - اقتصادية. يكفي جهاز واحد أو شريحة واحدة لمجموعة من التلاميذ .\n٣ - اقتصادية في الوقت مقارنة بالطريقة الاستكشافية .\n٤ - تشد انتباه التلاميذ للدرس .\n٥ - تساعد المعلم على ضبط الفصل .", "mode": ["جماعي"], "thinking": ["تفكير نقدي"], "tools": ["تقنية/عرض"]},
+      {"id": 38, "title": "إستراتيجية خطط الجلوس", "content": "استخدم خطط الجلوس للتمييز من خلال :\n- وضع الطلبة ذوي القدرات المتفاوتة بجوار بعضهم البعض.\n- وضع الطالب بجوار من تشعر أنه سيكون له تأثيراً إيجابياً عليه.\n- إعداد الغرفة بحيث تجلس المجموعات التي تريدها في العمل الجماعي بجوار بعضهم البعض.\n- وضع الطلبة ذوي مهارات معينة بجوار الطلبة الذين يحتاجون لتنمية تلك المهارات.", "mode": ["جماعي"], "thinking": ["فهم وتطبيق"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 39, "title": "إستراتيجية الحوار السقراطي", "content": "كان سقراط فيلسوفاً في اليونان القديمة ، وقد عرفنا عنه من خلال كتابات أفلاطون، وكان معتاداً على إشراك الناس في محادثة فلسفية ، وشمل ذلك تفنيد الحجج التي يقدمها الناس والمفاهيم والافتراضات التي تستند إليها.\nالحوار السقراطي في الفصل يتضمن تحدث المعلم حديثاً مطولاً مع تلميذ عن أفكارهم بشأن موضوع ما . يجب أن يطرح المعلم الأسئلة ويقدم أمثلة مضادة ، والغرض من ذلك هو تحسين جودة حجج الطالب وتشجيعهم على النظر إلى أفكارهم بطريقة ناقدة.\nالقيام بهذا مع طالب أو طالبين بينما باقي الفصل يستمع هو أسلوب جيد للتمييز.", "mode": ["جماعي"], "thinking": ["تفكير نقدي", "تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 40, "title": "إستراتيجية الخيارات", "content": "زود الطلبة بمجموعة من الخيارات بشأن كيفية تناولهم المهمة، على سبيل المثال :\nأعد للطلبة سؤالين يجب عليهم الإجابة عليها ثم زودهم بمجموعة من الخيارات للانتقاء منها :\n- أكتب مقالة .\n- أنشئ شريطاً كارتونياً .\n- إصنع ملصقاً حائطياً يعلن عن إجابتك .\n- أكتب قصيدة .\n- أعد مسرحية .\n- صغ خطاباً تقدم فيه وجهة نظرك .\n- أنشئ أغنية مستوحاة من أحد الأسئلة.", "mode": ["جماعي"], "thinking": ["تفكير إبداعي", "تواصل وحوار"], "tools": ["أدوات صفية", "دمى/تمثيل"]},
+      {"id": 41, "title": "إستراتيجية الإضافات", "content": "أعد لنفسك أسئلة أو مهام إضافية جاهزة للتلاميذ الذين ينهون العمل. الخيار المفضل لي هو أن يكون لدي أسئلة إضافية لجميع شرائح الباور بوينت الخاصة بي. بالإضافة لذلك فأنا أنشئ إضافات فائقة وإضافات مفرطة وحتى إضافات من الفضاء الخارجي للطلبة الذين ينهون ذلك. استخدم مستويات أعلى من تصنيفات بلوم لخلق أسئلة ومهام إضافية خاصة بك، يمكنك أيضاً اللجوء للفلسفة، ولاسيما عن طريق تشجيع الطلبة على تحليل المفاهيم .", "mode": ["مرن"], "thinking": ["تواصل وحوار"], "tools": ["تقنية/عرض"]},
+      {"id": 42, "title": "إستراتيجية الاستيضاح", "content": "اطرح على الطلبة أسئلة استيضاح وشجعهم على القيام بالمثل معك. الميزة الكبرى لاستيضاح الأسئلة هي أنها تقلل من الغموض، وهذا لأنها تتطلب من الشخص الذي يجري سؤاله شرح أحد جوانب الفكر أو الخطاب الخاص به بحيث يكون واضحاً للسائل.\nتشمل أسئلة الاستيضاح :\n- ماذا تعني بالضبط بذلك ؟\n- هل يمكنك إعطائي مثالاً ؟\n- كيف يعمل ذلك ؟\n- هل يمكنك شرح ذلك مرة أخرى ؟\n- بما تقارنها ؟", "mode": ["فردي"], "thinking": ["تفكير نقدي", "تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 43, "title": "إستراتيجية خليط المهام", "content": "وسيلة بديلة للحكم على ما إذا كان لديك خليط من المهام هو أن تنظر إلى ما تطلب من الطلبة إنتاجه هذا يشبه إلى حد ما العمل في الاتجاه العكسي. عند التخطيط لدرس أو وحدة عمل، حدد خليط من المنتجات ترغب من الطلبة إنجازها في النهاية اجعل هذه القائمة أساساً لأنشطتك ، فهي حتماً تُنتج خليطاً من الأنشطة، لأن الأنشطة سوف تتبع قائمة المنتجات المختلفة، فلن يكون لديك أي خيار سوى استخدام مجموعة من الأنشطة من أجل ضمان تحقيق تلك المنتجات.", "mode": ["جماعي"], "thinking": ["فهم وتطبيق"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 44, "title": "إستراتيجية محطات الأنشطة", "content": "محطات الأنشطة تعمل كما يلي :\nحدد عدداً من المحطات المختلفة في الغرفة. يجب أن يكون لكل محطة موارد مختلفة و/أو مهام مرتبطة بها. تأكد من توفر أنواع مختلفة من الموارد والمهام، مثلاً: قد يكون لديك دراسة حالة وحاسب محمول محمل عليه فيديو وبطاقات فرز وأوراق للتوزيع وشكل المعين ومقالة من صحيفة.\nوزع الطلبة على المجموعات وحدد لكل مجموعة محطة . إجعل المجموعات تدور على المحطات بعد مرور الزمن المحدد، وتأكد من زيارة كل مجموعة لجميع المحطات.", "mode": ["جماعي"], "thinking": ["فهم وتطبيق"], "tools": ["بطاقات", "فيديو", "تقنية/عرض"]},
+      {"id": 45, "title": "إستراتيجية الأنشطة التصاعدية", "content": "الأنشطة التصاعدية تأخذ الطلبة في رحلة تعلم تزداد صعوبة بالتدريج . خطط لدروسك لتشمل مهاماً يتزايد تعقيدها أو التي تتطلب تفكيراً متطوراً على نحو متزايد. ليس من الضروري لجميع الطلبة الوصول إلى قمة السلم . شجعهم على الاستمرار في العمل صعوداً ، ولكن إذا وصل البعض إلى نقطة تسبب لهم مشاكل ، اسمح لهم بالتوقف عند هذا الحد واعمل على حلها .\n\nيمكن أن تستند الأنشطة التصاعدية على مستويات تصنيف بلوم الستة:\n١. المعرفة : الترتيب، التعريف، الوصف، المطابقة، الحفظ والتسمية.\n٢. الفهم : التمييز، التصنيف، الشرح والتوضيح.\n٣. التطبيق : التطبيق، الحساب، التشغيل وتمثيل الأدوار.\n٤. التحليل : التقدير، المقارنة، الاستكشاف والتحقيق.\n٥. التوليف/الابتكار : البناء، التصميم، التخطيط والدمج.\n٦. التقييم : النقد، التبرير، الفحص والحكم.", "mode": ["جماعي"], "thinking": ["تفكير نقدي", "استقصاء واكتشاف", "تواصل وحوار", "تنظيم المعرفة", "تذكر وفهم"], "tools": ["بطاقات", "ألعاب", "دمى/تمثيل"]},
+      {"id": 46, "title": "إستراتيجية البوصلة", "content": "توزيع الأدوار والآراء والتفكير الاكتشافي بناءً على أربعة اتجاهات متقابلة لتوجيه أسئلة الدرس وتلخيص ما استمتع به الطلاب وفهموه بأسلوب منظم وشامل.", "mode": ["مرن"], "thinking": ["فهم وتطبيق"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 47, "title": "إستراتيجية العصف الذهني", "content": "المفهوم : يقصد به توليد وإنتاج أفكار وآراء إبداعية من الأفراد والمجموعات لحل مشكلة معينة، وتكون هذه الأفكار والآراء جيدة ومفيدة .. أي وضع الذهن في حالة من الإثارة والجاهزية للتفكير في كل الاتجاهات لتوليد أكبر قدر من الأفكار حول المشكلة أو الموضوع المطروح، بحيث يتاح للفرد جو من الحرية يسمح بظهور كل الآراء والأفكار.\n\nأهداف العصف الذهني :\n١ . تفعيل دور المتعلم في المواقف التعليمية .\n۲ . تحفيز المتعلمين على توليد الأفكار الإبداعية وتطويرها .\n٣ . تعويد الطلاب على احترام آراء الآخرين والاندماج معها .\n\nمراحل الجلسة :\n١- تحديد ومناقشة المشكلة .\n٢- إعادة صياغة الموضوع بأسئلة مفتوحة .\n٣- تهيئة جو الإبداع وتوليد الأفكار بحرية .\n٤- تحديد أغرب فكرة وتحويلها لفكرة عملية .\n٥- تقييم الأفكار واختيار الحل الأفضل .", "mode": ["فردي", "جماعي"], "thinking": ["تفكير إبداعي", "تفكير نقدي", "حل المشكلات", "استقصاء واكتشاف", "تواصل وحوار"], "tools": ["صور", "أدوات صفية", "تقنية/عرض"]},
+      {"id": 48, "title": "إستراتيجية فكر ، زاوج ، شارك", "content": "وجه سؤالاً للجميع بحيث يفكر كل طالب منفرداً ولمدة دقيقة - دقيقتين ، بعد عملية التفكير الفردي ، يتشارك كل طالبين معاً ويتبادلان مشاركاتهما في الخطوة الأولى ويتفقان على إجابة مشتركة ، ثم يشترك كل أفراد المجموعة الرباعية في الحل النهائي.\n\nخطوات الإستراتيجية :\n- فكر لوحدك أولاً : تفكير فردي صامت دون مقاطعة.\n- فكر مع زميلك ثانياً : تبادل الأفكار والاتفاق على إجابة ثنائية واحدة.\n- فكر مع مجموعتك ثالثاً : مشاركة الفكرة الثنائية مع المجموعة الرباعية.\n- شارك الصف رابعاً : تقديم الإجابة للصف عبر متحدث المجموعة .", "mode": ["فردي", "ثنائي", "جماعي"], "thinking": ["فهم وتطبيق"], "tools": ["أدوات صفية"]},
+      {"id": 49, "title": "إستراتيجية مسرح العرائس", "content": "استخدام الدمى والعرائس في تمثيليات هادفة توفر للتلاميذ خبرات تعليمية ممتازة وهي شكل ممتع من أشكال التسلية والترويح على التلاميذ وخصوصاً للفصول الدنيا كما أنها طريقة مؤثرة في التعبير عن فكرة أو موضوع وسيلة فعالة لمسرحة المواد الدراسية.\n\nأهداف مسرح العرائس :\n١. تجسيد الشخصيات والأفكار بشكل ملموس ومسموع .\n٢. إدراك الطلاب أن لهم دوراً في تغيير واقعهم .\n٣. توصيل القيم والمبادئ السلوكية الإيجابية بأسلوب غير مباشر .\n٤. تثبيت المعلومات وتنمية الخيال والمهارات الإبداعية والتواصلية لدى الطلاب .", "mode": ["فردي"], "thinking": ["تفكير إبداعي", "استقصاء واكتشاف"], "tools": ["أدوات صفية", "دمى/تمثيل", "تقنية/عرض"]},
+      {"id": 50, "title": "إستراتيجية التعلم بالاكتشاف", "content": "تنقل مركز العملية التعليمية من المعلم إلى المتعلم حيث أنه يكتشف المعلومات بنفسه أي أنه منتجاً للمعرفة وليس مستهلكاً لها .\n\nخصائص وأهداف التعلم بالاكتشاف :\n- تساعد دروس الاكتشاف الطلبة على زيادة قدراتهم على تحليل وتركيب وتقويم المعلومات عقلانياً .\n- تنمي اتجاهات حل المشكلات والتنقيب عن المعرفة بنفسه .\n- إيجاد أنماط مختلفة في المواقف المحسوسة والمجردة .\n- زيادة استبقاء التعلم في الذاكرة وسهولة انتقال أثره إلى مواقف جديدة .", "mode": ["جماعي"], "thinking": ["تفكير إبداعي", "حل المشكلات", "استقصاء واكتشاف", "استدلال واستقراء", "تواصل وحوار"], "tools": ["أدوات صفية", "تقنية/عرض"]},
+      {"id": 51, "title": "إستراتيجية الرؤوس المرقمة", "content": "خطوات التنفيذ :\n١. يقسم المعلم الفصل إلى مجموعات مؤلفة من ٤ أعضاء ويعطى كل عضو رقم من ١ إلى ٤ .\n٢. يطرح المعلم السؤال على الفصل .\n٣. يتشارك أعضاء المجموعة في حل السؤال مع الحرص على أن كل طالب أخذ فرصته في الممارسة والحل والتأكد من وصول كل عضو إلى فهم واسع للحل .\n٤. يوجه المعلم السؤال مرة أخرى ويعين رقماً عشوائياً (فمثلاً الطالب صاحب رقم 2) لتقديم الإجابة والتحدث باسم مجموعته .\n\nأهدافها : بث روح التعاون والتنافس الجماعي ودمج الطلاب الضعاف مع المتفوقين بصورة مشجعة .", "mode": ["جماعي"], "thinking": ["حل المشكلات"], "tools": ["صور"]},
+      {"id": 52, "title": "إستراتيجية الظهر بالظهر", "content": "نشاط يشجع الطلاب على العمل التشاركي ويطور لديهم مهارات الاتصال والملاحظة والتوضيح والاستماع النشط.\n\nالخطوات :\n١ . يجلس الطالبان ظهر بالظهر بحيث لا يرى أحدهما الآخر.\n٢ . الطالب الأول يحمل صورة محفزة، والطالب الثاني معه ورقة وقلم.\n٣ . يصف الطالب الأول الصورة بدقة، ويقوم الطالب الثاني برسم ما يسمعه دون التركيز على الجودة الفنية.\n٤ . يتبادل الطالبان الأسئلة والمقارنة بعد نهاية الوقت المحدد ورصد الملاحظات .", "mode": ["فردي", "ثنائي"], "thinking": ["تواصل وحوار", "تذكر وفهم"], "tools": ["صور", "أوراق/ملاحظات"]},
+      {"id": 53, "title": "إستراتيجية المسابقات", "content": "شحذ للهمم واستنهاض لها ولون من ألوان تنمية القدرات وبناء الثقة بالنفس إذ تعطي المشاركة الفرصة لاختيار ما يوافق قدراته ويشبع ميوله ويواكب مداركه واستعداده الشخصي فتبرز مواهبه وتنمو مهاراته العقلية والعلمية.\n\nأنواع المسابقات :\n- مسابقات ثقافية (دينية، أدبية، وعامة).\n- مسابقات اجتماعية (صحية وبيئية).\n- مسابقات علمية (مبتكرات وتجارب عملية).\n- مسابقات فنية ومهنية (أنشطة ورسم وأعمال يدوية) .", "mode": ["فردي"], "thinking": ["تفكير إبداعي", "استقصاء واكتشاف", "تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 54, "title": "إستراتيجية القبعات الست", "content": "تقسيم التفكير إلى ستة أنماط واعتبار كل نمط قبعة يلبسها الإنسان أو يخلعها حسب طريقة تفكيره في تلك اللحظة (البيضاء للمعلومات، الحمراء للمشاعر، السوداء للمخاطر، الصفراء للإيجابيات، الخضراء للإبداع، والزرقاء للتحكم والتنظيم).\n\nأهدافها :\n- توضيح وتبسيط التفكير لتحقيق فعالية أكبر والمرونة في تغيير أنماط التفكير.\n- تجمع بين التفكير الناقد والإبداعي والعاطفي والمنظم في محطات خطية واضحة .", "mode": ["فردي", "جماعي"], "thinking": ["تفكير إبداعي"], "tools": ["أدوات صفية", "تقنية/عرض"]},
+      {"id": 55, "title": "إستراتيجية التدريس الاستقرائي", "content": "هو تتبع الأمثلة أو الجزئيات وتفحصها للتعرف على وجوه الشبه والخلاف للتوصل لتحديد القاعدة أو القانون أو التعريف . هو انتقال العقل من الحوادث الجزئية إلى القواعد والأحكام الكلية التي تنظم الحوادث والحالات.\n\nمزايا الطريقة الاستقرائية :\n- الأيسر على الطالب البدء بالحالات الفردية للانطلاق نحو القواعد الكلية .\n- تعود الطالب الاعتماد على النفس والاستكشاف الذاتي .", "mode": ["فردي"], "thinking": ["استدلال واستقراء", "تواصل وحوار"], "tools": ["تقنية/عرض"]},
+      {"id": 56, "title": "إستراتيجية حل المشكلات", "content": "صياغة المقرر الدراسي كله في صورة مشكلات يتم دراستها بخطوات الأسلوب العلمي في التفكير تقوم على إثارة تفكير التلاميذ وإشعارهم بالحاجة للبحث لاستكشاف الحقائق للوصول للحل.\n\nالخطوات الرئيسة :\n١. الإحساس بوجود المشكلة وتحديدها دقيقاً .\n٢. صياغة الفروض والتخمينات الذكية .\n٣. اختبار الفروض وتجريبها .\n٤. الوصول إلى أحكام عامة وتطبيق الحلول .", "mode": ["جماعي"], "thinking": ["حل المشكلات", "استقصاء واكتشاف", "تواصل وحوار"], "tools": ["صور", "تقنية/عرض"]},
+      {"id": 57, "title": "إستراتيجية القصة", "content": "استخدام القصة كأسلوب تربوي مؤثر وفعال في تربية الطلبة وتوجيههم وغرس القيم الفاضلة وتنمية حصيلتهم اللغوية وتقوية الخيال والتفكير الأدبي والإبداعي.\n\nفوائد القصة التربوية :\n- توفير المتعة والتسلية وإثراء المعجم اللغوي.\n- ربط المتعلم بعادات وقيم المجتمع.\n- تنمية الخيال وإتاحة فرصة التعبير عن الذات وشجاعة التحدث أمام الآخرين .", "mode": ["فردي"], "thinking": ["تفكير إبداعي", "تفكير نقدي", "تواصل وحوار"], "tools": ["لا تتطلب أداة محددة"]},
+      {"id": 58, "title": "إستراتيجية الألعاب والألغاز", "content": "استغلال أنشطة اللعب والهوايات في اكتساب المعرفة وتقريب مبادئ العلم للأطفال وتوسيع آفاقهم المعرفية وتنمية القدرات العقلية والجسمية والوجدانية.\n\nأنواع الألعاب التربوية :\n- الدمى والأشكال المحسوسة.\n- الألعاب الحركية والسباقات.\n- ألعاب الذكاء والألغاز والحلول.\n- الألعاب التمثيلية ولعب الأدوار والمسابقات .", "mode": ["فردي"], "thinking": ["تفكير إبداعي", "حل المشكلات"], "tools": ["بطاقات", "ألعاب", "أدوات صفية", "دمى/تمثيل"]},
+      {"id": 59, "title": "إستراتيجية رموز وخطوات", "content": "عرض مجموعة من الرموز الشفرية أو الصور وأمام كل رمز خطوة أو حرف، ويطلب من الطلاب تجميع الرموز والربط بينها للاستدلال على الناتج أو المفهوم النهائي المطلوب.", "mode": ["جماعي"], "thinking": ["استدلال واستقراء"], "tools": ["تقنية/عرض"]},
+      {"id": 60, "title": "إستراتيجية الخرائط المفاهيمية", "content": "إستراتيجية تدريسية فاعلة تستخدم في تمثيل المعرفة من خلال عرضها بأشكال تخطيطية تربط المفاهيم مع بعضها البعض بالأسهم والخطوط، وتستخدم لتقديم معلومات جديدة وتعميق الفهم وتقويم الدرس وتنظيم المعرفة في الدماغ لتسهيل الاسترجاع والتطبيق.", "mode": ["مرن"], "thinking": ["تنظيم المعرفة"], "tools": ["خرائط/مخططات", "دمى/تمثيل", "تقنية/عرض"]},
+      {"id": 61, "title": "إستراتيجية المناقشة", "content": "تطوير لأسلوب الإلقاء بإدخال المناقشة والحوار السقراطي في صورة تساؤلات تثير الدافعية وتدور حول إثارة تفكير ومشاركة الطلاب وإتاحة فرصة الأسئلة وتبادل الآراء.\n\nخطواتها :\n١ - الإعداد للمناقشة وتحديد المصادر المفيدة .\n٢ - السير في المناقشة وتنظيم النقاش بين الطلاب .\n٣ - تقويم المناقشة وتلخيص النقاط والرصد التقييمي .\n\nأهدافها: تعميق الاستيعاب، مراعاة الفروق الفردية، كسر الملل، وتطوير مهارات التعبير والشورى .", "mode": ["فردي", "ثنائي", "جماعي"], "thinking": ["تفكير إبداعي", "تفكير نقدي", "استقصاء واكتشاف", "تواصل وحوار", "تذكر وفهم"], "tools": ["صور", "فيديو", "أوراق/ملاحظات", "خرائط/مخططات", "تقنية/عرض"]},
+      {"id": 62, "title": "إستراتيجية جولة بصرية", "content": "إشراك الطلاب في مفهوم جديد من خلال عرض نظرات خاطفة إلى المكونات المهمة باستخدام سلسلة من الصور المنوعة (فوتوغرافية، رسوم توضيحية، خرائط) واستكمال مخطط T لربط الصور بالدرس وطرح أسئلة استكشافية قبل بدء الوحدة ومعالجة المفاهيم الخاطئة مبكراً.", "mode": ["فردي", "ثنائي", "جماعي"], "thinking": ["تفكير نقدي", "تواصل وحوار", "تذكر وفهم"], "tools": ["صور", "أدوات صفية", "خرائط/مخططات", "تقنية/عرض"]},
+      {"id": 63, "title": "إستراتيجية قصة من ست كلمات", "content": "تمكين الطلاب من تمييز الأفكار الأكثر أهمية وتلخيص المعلومات في أي موضوع من خلال كتابة فقرة موجزة أو قصة مكونة من ست كلمات فقط تعبر عن صورة أو مقطع فيديو أو مقال دراسي، ثم إعداد صيغة بصرية ومشاركتها مع الزملاء لتوضيح عملية التفكير.", "mode": ["فردي"], "thinking": ["تفكير إبداعي", "استقصاء واكتشاف", "تواصل وحوار", "تذكر وفهم"], "tools": ["صور", "فيديو", "أدوات صفية"]},
+      {"id": 64, "title": "إستراتيجية الإيقاف المؤقت والتشغيل", "content": "توجيه الطلاب للتركيز على فهم المحتوى المعروض في مقطع الفيديو التعليمي من خلال استخدام أسلوب الإيقاف المؤقت عند نقاط زمنية محددة ومسبقة التخطيط لمنح الطلاب فرصة لتسجيل الملاحظات ومناقشة الأسئلة التوجيهية وتطبيق استراتيجيات الفهم.", "mode": ["فردي"], "thinking": ["استقصاء واكتشاف", "تواصل وحوار"], "tools": ["فيديو", "تقنية/عرض"]},
+      {"id": 65, "title": "إستراتيجية حزر ! ما هي ٢-١-٤", "content": "تجميع «حقيقتين (٢)، ودليل (١)، و(٤) صور» عن موضوع الدرس، وعرض الحقائق والأدلة والصور تدريجياً على الطلاب لمناقشتها وتحديث التكهنات والاستنتاجات القائمة على الأدلة للوصول إلى موضوع الدرس الأساسي بحافز وتشويق.", "mode": ["فردي", "جماعي"], "thinking": ["تذكر وفهم"], "tools": ["صور", "أدوات صفية", "تقنية/عرض"]},
+      {"id": 66, "title": "إستراتيجية ٣ حقائق صادقة و ١ كاذبة", "content": "تعزيز محو الأمية الرقمية والتقييم النقدي للمفاهيم عبر تقديم ٣ جمل صحيحة وجملة واحدة خاطئة استناداً إلى وسيط رقمي (فيديو أو تسجيل)، واطلب من الطلاب التخمين والتعليل ثم مشاهدة المقارنة البرهانية بالأدلة لدعم إجاباتهم.", "mode": ["ثنائي", "جماعي"], "thinking": ["تفكير نقدي", "تواصل وحوار"], "tools": ["فيديو", "أدوات صفية", "تقنية/عرض"]},
+      {"id": 67, "title": "إستراتيجية معركة كرات الثلج", "content": "نسخة مرحة وتفاعلية لمشاركة ما تعلمه الطلاب بعد مشاهدة فيديو تعليمي؛ حيث يكتب كل طالب حقيقة تعلمها في ورقة ثم يكورها ككرة ثلج ويقذفها في الهواء ليلتقط زميله كرة أخرى يقرأها ويضيف إليها تفصيلة جديدة، وتكرر العملية لتنشيط الذاكرة والتفاعل الممتع.", "mode": ["ثنائي", "جماعي"], "thinking": ["تواصل وحوار"], "tools": ["فيديو", "أوراق/ملاحظات", "ألعاب", "أدوات صفية", "تقنية/عرض"]},
+      {"id": 68, "title": "إستراتيجية نصف الصورة", "content": "تطبيق نظرية المعالجة النشطة في الدفاتر التفاعلية عبر قص وتوزيع نصف صورة فقط للمفهوم المطلوب، ثم مشاهدة مقطع فيديو تعليمي واستخدام المعلومات المجمعة لإكمال النصف الآخر من الصورة وتسميتها وكتابة معلومات شارحة عنها.", "mode": ["فردي"], "thinking": ["استقصاء واكتشاف", "تواصل وحوار"], "tools": ["صور", "فيديو", "أوراق/ملاحظات"]}
+    ];
 
-        function renderCards(data) {
-            grid.innerHTML = '';
-            if (data.length === 0) {
-                grid.innerHTML = '<div class="no-results">لم يتم العثور على استراتيجيات تطابق خيارات الفلترة.</div>';
-                return;
-            }
+    // عناصر الصفحة
+    const qInput = document.getElementById('q');
+    const modeSelect = document.getElementById('mode');
+    const thinkingSelect = document.getElementById('thinking');
+    const toolSelect = document.getElementById('tool');
+    const gridEl = document.getElementById('grid');
+    const countEl = document.getElementById('count');
+    const totalStatEl = document.getElementById('total-stat');
+    const modalEl = document.getElementById('modal');
+    const detailEl = document.getElementById('detail');
+    const closeBtn = document.getElementById('close');
 
-            data.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div>
-                        <h3>${item.title}</h3>
-                        <p>${item.description}</p>
-                    </div>
-                    <div class="tags">
-                        <span class="tag tag-type">${item.type}</span>
-                        <span class="tag tag-thinking">${item.thinking}</span>
-                        <span class="tag tag-tools">${item.tools}</span>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+    // إعداد العداد الإجمالي
+    totalStatEl.textContent = DATA.length;
 
-        function filterData() {
-            const searchText = searchInput.value.toLowerCase();
-            const selectedType = typeFilter.value;
-            const selectedThinking = thinkingFilter.value;
-            const selectedTools = toolsFilter.value;
+    // دالة عرض الكروت في الشبكة
+    function renderGrid(items) {
+      gridEl.innerHTML = '';
+      countEl.textContent = `تم العثور على (${items.length}) استراتيجية من أصل ${DATA.length}`;
 
-            const filtered = strategies.filter(item => {
-                const matchesSearch = item.title.toLowerCase().includes(searchText) || item.description.toLowerCase().includes(searchText);
-                const matchesType = selectedType === 'all' || item.type === selectedType;
-                const matchesThinking = selectedThinking === 'all' || item.thinking === selectedThinking;
-                const matchesTools = selectedTools === 'all' || item.tools === selectedTools;
+      if (items.length === 0) {
+        gridEl.innerHTML = `<div class="empty">لم يتم العثور على نتائج تطابق معايير البحث الخاصة بك.</div>`;
+        return;
+      }
 
-                return matchesSearch && matchesType && matchesThinking && matchesTools;
-            });
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => openModal(item.id);
 
-            renderCards(filtered);
-        }
+        const modesHtml = item.mode.map(m => `<span class="chip chip-mode">${m}</span>`).join('');
+        const thinkingHtml = item.thinking.map(t => `<span class="chip chip-thinking">${t}</span>`).join('');
+        const toolsHtml = item.tools.map(tl => `<span class="chip chip-tool">${tl}</span>`).join('');
 
-        searchInput.addEventListener('input', filterData);
-        typeFilter.addEventListener('change', filterData);
-        thinkingFilter.addEventListener('change', filterData);
-        toolsFilter.addEventListener('change', filterData);
+        card.innerHTML = `
+          <div>
+            <div class="card-header">
+              <span class="num-badge">استراتيجية #${item.id}</span>
+            </div>
+            <h2>${item.title}</h2>
+            <div class="excerpt">${item.content || 'اضغط لمشاهدة التفاصيل الكاملة...'}</div>
+          </div>
+          <div class="chips">
+            ${modesHtml}
+            ${thinkingHtml}
+            ${toolsHtml}
+          </div>
+        `;
+        gridEl.appendChild(card);
+      });
+    }
 
-        // العرض الأولي
-        renderCards(strategies);
-    </script>
+    // دالة التصفية والبحث
+    function filterData() {
+      const q = qInput.value.trim().toLowerCase();
+      const mode = modeSelect.value;
+      const thinking = thinkingSelect.value;
+      const tool = toolSelect.value;
+
+      const filtered = DATA.filter(item => {
+        const matchesQ = !q || item.title.toLowerCase().includes(q) || item.content.toLowerCase().includes(q);
+        const matchesMode = !mode || item.mode.includes(mode);
+        const matchesThinking = !thinking || item.thinking.includes(thinking);
+        const matchesTool = !tool || item.tools.includes(tool);
+
+        return matchesQ && matchesMode && matchesThinking && matchesTool;
+      });
+
+      renderGrid(filtered);
+    }
+
+    // دالة فتح النافذة المنبثقة التفصيلية
+    function openModal(id) {
+      const item = DATA.find(d => d.id === id);
+      if (!item) return;
+
+      const modesHtml = item.mode.map(m => `<span class="chip chip-mode">${m}</span>`).join('');
+      const thinkingHtml = item.thinking.map(t => `<span class="chip chip-thinking">${t}</span>`).join('');
+      const toolsHtml = item.tools.map(tl => `<span class="chip chip-tool">${tl}</span>`).join('');
+
+      detailEl.innerHTML = `
+        <div style="margin-bottom: 12px;">
+          <span class="num-badge">استراتيجية #${item.id}</span>
+        </div>
+        <h2 class="detail-title">${item.title}</h2>
+        <div class="chips" style="margin-bottom: 16px;">
+          ${modesHtml}
+          ${thinkingHtml}
+          ${toolsHtml}
+        </div>
+        <div class="detail-content">${item.content || 'لا يوجد محتوى تفصيلي إضافي.'}</div>
+      `;
+
+      modalEl.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // دالة إغلاق النافذة المنبثقة
+    function closeModal() {
+      modalEl.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ربط الأحداث
+    qInput.addEventListener('input', filterData);
+    modeSelect.addEventListener('change', filterData);
+    thinkingSelect.addEventListener('change', filterData);
+    toolSelect.addEventListener('change', filterData);
+
+    closeBtn.addEventListener('click', closeModal);
+    modalEl.addEventListener('click', (e) => {
+      if (e.target === modalEl) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalEl.classList.contains('open')) {
+        closeModal();
+      }
+    });
+
+    // العرض الأولي
+    renderGrid(DATA);
+  </script>
 </body>
 </html>
